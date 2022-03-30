@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Entity
 public class GroupFriend extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
