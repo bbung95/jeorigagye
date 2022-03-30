@@ -1,6 +1,5 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;

@@ -1,12 +1,12 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
+import com.jeorigagye.domain.extend.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class Expenditure extends BaseEntity {
+public class Expenditure extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

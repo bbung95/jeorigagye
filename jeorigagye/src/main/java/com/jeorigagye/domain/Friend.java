@@ -1,13 +1,13 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
+import com.jeorigagye.domain.extend.BaseTimeEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Friend extends BaseEntity {
+public class Friend extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

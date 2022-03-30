@@ -1,6 +1,6 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
+import com.jeorigagye.domain.extend.BaseTimeEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "groups")
-public class Group extends BaseEntity {
+public class Group extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

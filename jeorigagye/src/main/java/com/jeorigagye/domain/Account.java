@@ -1,12 +1,12 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
+import com.jeorigagye.domain.extend.BaseTimeEntity;
 import com.jeorigagye.enums.AccountType;
 
 import javax.persistence.*;
 
 @Entity
-public class Account extends BaseEntity {
+public class Account extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

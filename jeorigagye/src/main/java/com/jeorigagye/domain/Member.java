@@ -1,10 +1,11 @@
 package com.jeorigagye.domain;
 
-import com.jeorigagye.domain.extend.BaseEntity;
+import com.jeorigagye.domain.extend.BaseTimeEntity;
 import com.jeorigagye.dto.MemberForm;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @Builder(builderMethodName = "MemberBuilder")
 @AllArgsConstructor
-public class Member extends BaseEntity {
+public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -46,7 +47,6 @@ public class Member extends BaseEntity {
 
     protected Member() {
     }
-
     public static MemberBuilder builder(MemberForm form){
 
         return MemberBuilder()
