@@ -1,11 +1,7 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
-import com.jeorigagye.dto.MemberForm;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -13,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@Builder(builderMethodName = "MemberBuilder")
+@NoArgsConstructor
 @AllArgsConstructor
 public class Member extends BaseTimeEntity {
 
@@ -28,31 +24,33 @@ public class Member extends BaseTimeEntity {
 
     private int salary;
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     public List<Account>  accounts = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     public List<Expenditure> expenditures = new ArrayList<>();
 
-
-    @Builder.Default
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
     public List<Friend> friends = new ArrayList<>();
 
-    @Builder.Default
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     public List<Group> groups = new ArrayList<>();
 
-    protected Member() {
-    }
-    public static MemberBuilder builder(MemberForm form){
+    @Builder
+    public Member(String membername, String password, String name){
 
-        return MemberBuilder()
-                .membername(form.getMembername())
-                .password(form.getPassword())
-                .name(form.getName());
+       this.membername = membername;
+       this.password = password;
+       this.name = name;
     }
 
+    public void addFriend(Member target){
+
+        Friend friend = Friend.builder()
+                .member(this)
+                .target(target)
+                .build();
+
+        this.getFriends().add(friend);
+    }
 }

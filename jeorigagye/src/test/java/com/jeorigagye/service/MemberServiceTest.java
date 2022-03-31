@@ -19,15 +19,16 @@ class MemberServiceTest {
 
     @Autowired
     private MemberRepsitory memberRepsitory;
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     private EntityManager em;
 
     @Test
-    @Rollback(value = false)
-    public void memberSaveTest() throws Exception {
+    public void 회원가입_TEST() throws Exception {
         //given
-        Member member = getMember();
+        Member member = getMember("bbung95");
 
         //when
         memberRepsitory.save(member);
@@ -37,9 +38,9 @@ class MemberServiceTest {
     }
     
     @Test
-    public void memberFindTest() throws Exception {
+    public void 회원상세_TEST() throws Exception {
         //given
-        Member member = getMember();
+        Member member = getMember("bbung95");
         memberRepsitory.save(member);
         em.clear();
 
@@ -51,14 +52,50 @@ class MemberServiceTest {
         Assertions.assertEquals(member.getMembername() , findMember.getMembername());
         Assertions.assertEquals(member.getName() , findMember.getName());
     }
+    
+    @Test
+    public void 회원아이디_중복_TEST() throws Exception {
+        //given
+        Member member1 = getMember("bbung95");
 
-    public Member getMember(){
-        MemberForm memberForm = new MemberForm();
-        memberForm.setMembername("bbung95");
-        memberForm.setPassword("1234");
-        memberForm.setName("뻥뻥이");
+        //when
+        memberRepsitory.save(member1);
 
-        Member member = Member.builder(memberForm).build();
+        IllegalStateException e = Assertions.assertThrows(IllegalStateException.class, () -> {
+            MemberForm form = new MemberForm();
+            form.setMembername("bbung95");
+            memberService.memberJoin(form);
+        });
+
+        //then
+        Assertions.assertEquals(e.getMessage(), "아이디가 중복됩니다.");
+    }
+    
+    @Test
+    public void 회원친구추가_TEST() throws Exception {
+        //given
+        Member member = getMember("bbung95");
+        Member friend = getMember("yeean");
+
+        memberRepsitory.save(member);
+        memberRepsitory.save(friend);
+
+        //when
+        member.addFriend(friend);
+
+        //then
+        Member findMember = memberRepsitory.findById(member.getId()).get();
+
+        Assertions.assertEquals(findMember.getFriends().get(0).getTarget().getMembername(), friend.getMembername());
+    }
+
+    public Member getMember(String membername){
+
+        Member member = Member.builder()
+                .membername(membername)
+                .password("1234")
+                .name("뻥뻥이")
+                .build();
 
         return member;
     }

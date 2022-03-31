@@ -20,8 +20,13 @@ public class MemberService {
     @Transactional
     public Long memberJoin(MemberForm form){
 
-        Member member = Member.builder(form).build();
+        membernameDuplicatedCheck(form.getMembername());
 
+        Member member = Member.builder()
+                .membername(form.getMembername())
+                .password(form.getPassword())
+                .name(form.getName())
+                .build();
         memberRepsitory.save(member);
 
         return member.getId();
@@ -34,5 +39,16 @@ public class MemberService {
         MemberDto memberDto = MemberDto.builder(findMember).build();
 
         return memberDto;
+    }
+
+    private void membernameDuplicatedCheck(String membername){
+
+
+        System.out.println("membername = " + membername);
+        Member findMember = memberRepsitory.findByMembername(membername);
+
+        if(findMember != null){
+            throw new IllegalStateException("아이디가 중복됩니다.");
+        }
     }
 }
