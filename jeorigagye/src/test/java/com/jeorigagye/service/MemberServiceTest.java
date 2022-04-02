@@ -4,14 +4,13 @@ import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.MemberForm;
 import com.jeorigagye.repository.MemberRepsitory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.util.Optional;
 
 @SpringBootTest
 @Transactional
@@ -21,12 +20,12 @@ class MemberServiceTest {
     private MemberRepsitory memberRepsitory;
     @Autowired
     private MemberService memberService;
-
     @Autowired
     private EntityManager em;
 
     @Test
-    public void 회원가입_TEST() throws Exception {
+    @DisplayName("회원가입_TEST")
+    public void memberSaveTest() throws Exception {
         //given
         Member member = getMember("bbung95");
 
@@ -38,7 +37,8 @@ class MemberServiceTest {
     }
     
     @Test
-    public void 회원상세_TEST() throws Exception {
+    @DisplayName("회원상세_TEST")
+    public void memberFindTest() throws Exception {
         //given
         Member member = getMember("bbung95");
         memberRepsitory.save(member);
@@ -54,7 +54,8 @@ class MemberServiceTest {
     }
     
     @Test
-    public void 회원아이디_중복_TEST() throws Exception {
+    @DisplayName("회원아이디_중복_TEST")
+    public void membernameDuplicateTest() throws Exception {
         //given
         Member member1 = getMember("bbung95");
 
@@ -72,7 +73,8 @@ class MemberServiceTest {
     }
     
     @Test
-    public void 회원친구추가_TEST() throws Exception {
+    @DisplayName("회원친구추가_TEST")
+    public void friendSaveTest() throws Exception {
         //given
         Member member = getMember("bbung95");
         Member friend = getMember("yeean");

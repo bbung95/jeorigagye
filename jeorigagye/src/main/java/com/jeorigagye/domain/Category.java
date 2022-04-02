@@ -1,6 +1,6 @@
 package com.jeorigagye.domain;
 
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +8,8 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Category{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,9 @@ public class Category{
     @OneToMany(mappedBy = "category" , fetch = FetchType.LAZY)
     private List<Expenditure> expenditures = new ArrayList<>();
 
-    public Category() {
+    @Builder
+    public Category(String name, String image) {
+        this.name = name;
+        this.image = image;
     }
 }

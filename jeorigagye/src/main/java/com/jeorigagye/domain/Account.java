@@ -2,10 +2,16 @@ package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
 import com.jeorigagye.enums.AccountType;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Account extends BaseTimeEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +32,13 @@ public class Account extends BaseTimeEntity{
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Account() {
+    @Builder
+    public Account (String name, int price, AccountType type, Member member, Category category){
+        this.name = name;
+        this.price = price;
+        this.type = type;
+        setMember(member);
+        this.category = category;
     }
 
     public void setMember(Member member){
