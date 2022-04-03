@@ -2,14 +2,12 @@ package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
 import com.jeorigagye.enums.AccountType;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Account extends BaseTimeEntity{
