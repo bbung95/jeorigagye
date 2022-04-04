@@ -100,7 +100,7 @@ class AccountServiceTest {
         accountRepository.save(account2);
 
         //when
-        int sumPrice = accountRepository.findByMemberIdWithIncomeSumPrice(member.getId(), AccountType.INCOME);
+        int sumPrice = accountRepository.findByMemberIdAndTypeWithAccountSumPrice(member.getId(), AccountType.INCOME);
 
         //then
         assertThat(sumPrice).isEqualTo(account1.getPrice()+account2.getPrice());
@@ -121,7 +121,7 @@ class AccountServiceTest {
         accountRepository.save(account2);
 
         //when
-        int sumPrice = accountRepository.findByMemberIdWithIncomeSumPrice(member.getId(), AccountType.EXPENDITURE);
+        int sumPrice = accountRepository.findByMemberIdAndTypeWithAccountSumPrice(member.getId(), AccountType.EXPENDITURE);
 
         //then
         assertThat(sumPrice).isEqualTo(account1.getPrice()+account2.getPrice());

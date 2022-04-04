@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
@@ -47,6 +48,7 @@ class ExpenditureServiceTest {
         //given
         Category category = em.find(Category.class, 1L);
         Member member = getMember("bbung95");
+        em.persist(member);
 
         Expenditure expenditure = getExpenditure(member , category);
 
@@ -67,21 +69,43 @@ class ExpenditureServiceTest {
         //given
         Category category = em.find(Category.class, 1L);
         Member member = getMember("bbung95");
+        em.persist(member);
 
         Expenditure expenditure = getExpenditure(member , category);
 
         //when
         expenditureRepository.save(expenditure);
-        em.flush();
 
         Expenditure findExpenditure = expenditureRepository.findById(expenditure.getId()).get();
         expenditureRepository.delete(findExpenditure);
+        em.flush();
 
         List<Expenditure> checkExpenditure = expenditureRepository.findAll();
 
         //then
-
         assertThat(checkExpenditure.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("정기지출 총합계_TEST")
+    public void expenditureSumPriceTest() throws Exception {
+        //given
+        Category category = em.find(Category.class, 1L);
+        Member member = getMember("bbung95");
+        em.persist(member);
+
+        Expenditure expenditure1 = getExpenditure(member , category);
+        Expenditure expenditure2 = getExpenditure(member , category);
+        expenditureRepository.save(expenditure1);
+        expenditureRepository.save(expenditure2);
+        em.flush();
+
+        //when
+        int sumPrice = expenditureRepository.findByMemberIdWithExpenditureSumPrice(member.getId());
+
+        //then
+        assertThat(sumPrice).isEqualTo(expenditure1.getPrice()+expenditure2.getPrice());
+
     }
 
     public Expenditure getExpenditure(Member member, Category category){

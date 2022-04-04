@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.Query;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query("select SUM(a.price) from Account a where a.member.id = :memberId and a.type = :type")
-    public int findByMemberIdWithIncomeSumPrice(Long memberId, AccountType type);
+    public int findByMemberIdAndTypeWithAccountSumPrice(Long memberId, AccountType type);
 }

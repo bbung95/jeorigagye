@@ -72,25 +72,6 @@ class MemberServiceTest {
         Assertions.assertEquals(e.getMessage(), "아이디가 중복됩니다.");
     }
     
-    @Test
-    @DisplayName("회원친구추가_TEST")
-    public void friendSaveTest() throws Exception {
-        //given
-        Member member = getMember("bbung95");
-        Member friend = getMember("yeean");
-
-        memberRepsitory.save(member);
-        memberRepsitory.save(friend);
-
-        //when
-        member.addFriend(friend);
-
-        //then
-        Member findMember = memberRepsitory.findById(member.getId()).get();
-
-        Assertions.assertEquals(findMember.getFriends().get(0).getTarget().getMembername(), friend.getMembername());
-    }
-
     public Member getMember(String membername){
 
         Member member = Member.builder()

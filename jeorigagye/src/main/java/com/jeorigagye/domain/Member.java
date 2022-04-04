@@ -30,7 +30,7 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     public List<Expenditure> expenditures = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY , cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     public List<Friend> friends = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
@@ -44,13 +44,7 @@ public class Member extends BaseTimeEntity {
        this.name = name;
     }
 
-    public void addFriend(Member target){
-
-        Friend friend = Friend.builder()
-                .member(this)
-                .target(target)
-                .build();
-
+    public void addFriend(Friend friend){
         this.getFriends().add(friend);
     }
 }

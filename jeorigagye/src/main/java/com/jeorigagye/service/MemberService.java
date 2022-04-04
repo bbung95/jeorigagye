@@ -43,8 +43,6 @@ public class MemberService {
 
     private void membernameDuplicatedCheck(String membername){
 
-
-        System.out.println("membername = " + membername);
         Member findMember = memberRepsitory.findByMembername(membername);
 
         if(findMember != null){
