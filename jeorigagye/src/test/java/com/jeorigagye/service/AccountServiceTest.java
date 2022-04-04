@@ -15,9 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.assertj.core.api.Assertions.*;
-
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional(readOnly = true)
@@ -50,13 +48,7 @@ class AccountServiceTest {
         Member member = getMember("bbung95");
         memberRepsitory.save(member);
 
-        Account account = Account.builder()
-                .name("첫 입금")
-                .price(100000)
-                .type(AccountType.INCOME)
-                .category(category)
-                .member(member)
-                .build();
+        Account account = getAccount(AccountType.INCOME, category, member);
 
         //when
         accountRepository.save(account);
@@ -79,13 +71,7 @@ class AccountServiceTest {
         Member member = getMember("bbung95");
         memberRepsitory.save(member);
 
-        Account account = Account.builder()
-                .name("첫 입금")
-                .price(100000)
-                .type(AccountType.EXPENDITURE)
-                .category(category)
-                .member(member)
-                .build();
+        Account account = getAccount(AccountType.INCOME, category, member);
 
         //when
         accountRepository.save(account);
@@ -107,21 +93,8 @@ class AccountServiceTest {
         Member member = getMember("bbung95");
         memberRepsitory.save(member);
 
-        Account account1 = Account.builder()
-                .name("첫 입금")
-                .price(100000)
-                .type(AccountType.INCOME)
-                .category(category)
-                .member(member)
-                .build();
-
-        Account account2 = Account.builder()
-                .name("두번째 입금")
-                .price(299900)
-                .type(AccountType.INCOME)
-                .category(category)
-                .member(member)
-                .build();
+        Account account1 = getAccount(AccountType.INCOME, category, member);
+        Account account2 = getAccount(AccountType.INCOME, category, member);
 
         accountRepository.save(account1);
         accountRepository.save(account2);
@@ -130,7 +103,7 @@ class AccountServiceTest {
         int sumPrice = accountRepository.findByMemberIdWithIncomeSumPrice(member.getId(), AccountType.INCOME);
 
         //then
-        assertThat(sumPrice).isEqualTo(399900);
+        assertThat(sumPrice).isEqualTo(account1.getPrice()+account2.getPrice());
     }
 
     @Test
@@ -141,21 +114,8 @@ class AccountServiceTest {
         Member member = getMember("bbung95");
         memberRepsitory.save(member);
 
-        Account account1 = Account.builder()
-                .name("첫 출금")
-                .price(20000)
-                .type(AccountType.EXPENDITURE)
-                .category(category)
-                .member(member)
-                .build();
-
-        Account account2 = Account.builder()
-                .name("두번째 출금")
-                .price(15000)
-                .type(AccountType.EXPENDITURE)
-                .category(category)
-                .member(member)
-                .build();
+        Account account1 = getAccount(AccountType.EXPENDITURE, category, member);
+        Account account2 = getAccount(AccountType.EXPENDITURE, category, member);
 
         accountRepository.save(account1);
         accountRepository.save(account2);
@@ -164,7 +124,7 @@ class AccountServiceTest {
         int sumPrice = accountRepository.findByMemberIdWithIncomeSumPrice(member.getId(), AccountType.EXPENDITURE);
 
         //then
-        assertThat(sumPrice).isEqualTo(35000);
+        assertThat(sumPrice).isEqualTo(account1.getPrice()+account2.getPrice());
     }
 
     public Member getMember(String membername){
@@ -176,5 +136,18 @@ class AccountServiceTest {
                 .build();
 
         return member;
-    }
+    };
+
+    public Account getAccount(AccountType type, Category category, Member member){
+
+        Account account = Account.builder()
+                .name("입출금")
+                .price(15000)
+                .type(type)
+                .category(category)
+                .member(member)
+                .build();
+
+        return account;
+    };
 }

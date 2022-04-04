@@ -1,20 +1,26 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Expenditure extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String price;
+    private int price;
 
     private String name;
 
+    @CreatedDate
     private LocalDateTime expenditureDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -25,11 +31,16 @@ public class Expenditure extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public Expenditure() {
-    }
-
-    public void setMember(Member member){
+    public void changeMember(Member member){
         this.member = member;
         member.getExpenditures().add(this);
+    }
+
+    @Builder
+    public Expenditure(int price, String name, Member member, Category category){
+        this.price = price;
+        this.name = name;
+        this.member = member;
+        this.category = category;
     }
 }
