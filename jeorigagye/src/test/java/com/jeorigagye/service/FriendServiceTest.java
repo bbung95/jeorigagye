@@ -2,9 +2,9 @@ package com.jeorigagye.service;
 
 import com.jeorigagye.domain.Friend;
 import com.jeorigagye.domain.Member;
-import com.jeorigagye.dto.MemberForm;
 import com.jeorigagye.repository.FriendRepository;
 import com.jeorigagye.repository.MemberRepsitory;
+import jdk.internal.org.objectweb.asm.Opcodes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -69,10 +69,11 @@ class FriendServiceTest {
         Friend friend = getFriend(member, member2);
         friendRepository.save(friend);
 
-        //when
         IllegalStateException e = Assertions.assertThrows(IllegalStateException.class, () -> {
             friendService.friendDuplicatedCheck(member.getId(), member2.getId());
         });
+
+        //assertThatThrownBy(() -> friendService.friendDuplicatedCheck(member.getId(), member2.getId())).isInstanceOf(IllegalStateException.class);
 
         //then
         Assertions.assertEquals(e.getMessage(), "이미 친구추가가 되있습니다.");

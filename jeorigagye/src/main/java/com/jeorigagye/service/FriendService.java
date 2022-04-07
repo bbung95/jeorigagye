@@ -1,7 +1,6 @@
 package com.jeorigagye.service;
 
 import com.jeorigagye.domain.Friend;
-import com.jeorigagye.domain.Member;
 import com.jeorigagye.repository.FriendRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
