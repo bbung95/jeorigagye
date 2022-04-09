@@ -4,7 +4,6 @@ import com.jeorigagye.domain.Friend;
 import com.jeorigagye.domain.Member;
 import com.jeorigagye.repository.FriendRepository;
 import com.jeorigagye.repository.MemberRepsitory;
-import jdk.internal.org.objectweb.asm.Opcodes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 

@@ -6,9 +6,9 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
 
   jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create
-    properties:
       hibernate:
 #        show_sql: true # sysout을 통한 디버그
         format_sql: true
