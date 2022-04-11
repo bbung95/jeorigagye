@@ -1,21 +1,26 @@
 package com.jeorigagye.controller;
 
+import com.jeorigagye.dto.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/member/")
 public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("member")
-    public String memberDetailView(){
+    @PostMapping("join")
+    public Long memberJoin(@RequestBody MemberForm memberForm){
 
-        return "member";
+        System.out.println("memberForm = " + memberForm);
+
+        Long memberId = memberService.memberJoin(memberForm);
+
+        return memberId;
     }
 
 }

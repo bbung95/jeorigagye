@@ -3,9 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h2 th:text="${home}">
-    </h2>
+<h2 th:text="${home}"></h2>
+
+<div>
+    <input type="text" id="username"/>
+    <input type="text" id="password"/>
+</div>
+
+<button type="button" onclick="onClickJoin()">가입</button>
+<button type="button" onclick="onClickLogin()">로그인</button>
+
+<script>
+
+    function getFormData(){
+        const obj = {
+            'membername' : document.querySelector('#username').value ,
+            'password' : document.querySelector('#password').value
+        }
+
+        return obj;
+    }
+
+    function onClickJoin(){
+        const obj = getFormData();
+
+        $.ajax({
+            url : `/member/join`,
+            type : 'POST',
+            contentType : 'application/json',
+            data : JSON.stringify(obj),
+            success : function (result){
+                console.log(result, "result");
+            }
+        })
+    }
+
+    function onClickLogin(){
+        const obj = getFormData();
+        $.ajax({
+            url : `/login`,
+            type : 'POST',
+            contentType : 'application/json',
+            data : JSON.stringify(obj),
+            success : function (result){
+                console.log(result, "result");
+            }
+        })
+    }
+</script>
 </body>
 </html>

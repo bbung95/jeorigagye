@@ -5,6 +5,7 @@ import com.jeorigagye.dto.MemberDto;
 import com.jeorigagye.dto.MemberForm;
 import com.jeorigagye.repository.MemberRepsitory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,15 +17,15 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepsitory memberRepsitory;
+    private final PasswordEncoder passwordEncoder;
 
-    @Transactional
     public Long memberJoin(MemberForm form){
 
         membernameDuplicatedCheck(form.getMembername());
 
         Member member = Member.builder()
                 .membername(form.getMembername())
-                .password(form.getPassword())
+                .password(passwordEncoder.encode(form.getPassword()))
                 .name(form.getName())
                 .build();
         memberRepsitory.save(member);

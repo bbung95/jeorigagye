@@ -11,9 +11,10 @@ public class HomeController {
     public String home(Model model){
 
         System.out.println("home");
-        
+
         model.addAttribute("home", "welcome");
 
-        return "home.html";
+        return "home";
     }
+
 }
