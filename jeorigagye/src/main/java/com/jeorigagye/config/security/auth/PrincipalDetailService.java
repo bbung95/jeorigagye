@@ -12,18 +12,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PrincipalDetailService implements UserDetailsService {
 
-    private MemberRepsitory memberRepsitory;
+    private final MemberRepsitory memberRepsitory;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        System.out.println("PrincipalDetailService = " + username);
-        
         Member findMember = memberRepsitory.findByMembername(username);
-        PrincipalDetail principalDetail = PrincipalDetail.builder()
-                .member(findMember)
-                .build();
 
-        return principalDetail;
+        return new PrincipalDetail(findMember);
     }
 }

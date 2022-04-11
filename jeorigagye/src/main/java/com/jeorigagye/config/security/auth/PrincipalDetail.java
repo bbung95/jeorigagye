@@ -1,15 +1,16 @@
 package com.jeorigagye.config.security.auth;
 
 import com.jeorigagye.domain.Member;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 @Getter
-@Builder
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PrincipalDetail implements UserDetails {
 
     private Member member;
