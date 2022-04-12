@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -43,13 +45,15 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         String membername = JWT.require(Algorithm.HMAC512("cos")).build().verify(token).getClaim("membername").asString();
 
         if(membername != null && !membername.equals("")){
-            Member findMember = memberRepsitory.findByMembername(membername);
+            Member findMember = memberRepsitory.findByMembername(membername)
+                    .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-            System.out.println("findMember = " + findMember.getMembername());
             PrincipalDetail principalDetails = new PrincipalDetail(findMember);
 
             // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
             Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:with=" member = ${#authentication}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,7 +9,7 @@
 </head>
 <body>
 <h2 th:text="${home}"></h2>
-
+<h2 th:if="${member != null}">로그인완료</h2>
 <div>
     <input type="text" id="username"/>
     <input type="text" id="password"/>
@@ -50,6 +52,8 @@
             data : JSON.stringify(obj),
             success : function (result){
                 console.log(result, "result");
+
+                location.href="/"
             }
         })
     }

@@ -44,9 +44,9 @@ public class MemberService {
 
     private void membernameDuplicatedCheck(String membername){
 
-        Member findMember = memberRepsitory.findByMembername(membername);
+        Optional<Member> findMember = memberRepsitory.findByMembername(membername);
 
-        if(findMember != null){
+        if(findMember.isPresent()){
             throw new IllegalStateException("아이디가 중복됩니다.");
         }
     }
