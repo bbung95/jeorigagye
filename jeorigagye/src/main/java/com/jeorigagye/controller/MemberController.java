@@ -1,6 +1,6 @@
 package com.jeorigagye.controller;
 
-import com.jeorigagye.dto.MemberForm;
+import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,5 +22,8 @@ public class MemberController {
 
         return memberId;
     }
+
+//    @PostMapping("list")
+//    public List<>
 
 }
