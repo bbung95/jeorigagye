@@ -1,4 +1,4 @@
-package com.jeorigagye.dto;
+package com.jeorigagye.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;
