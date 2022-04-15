@@ -1,6 +1,7 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
+import com.jeorigagye.dto.member.MemberDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -46,5 +47,12 @@ public class Member extends BaseTimeEntity {
 
     public void addFriend(Friend friend){
         this.getFriends().add(friend);
+    }
+
+    public MemberDto toMemberDto(){
+
+        return MemberDto.builder()
+                .member(this)
+                .build();
     }
 }

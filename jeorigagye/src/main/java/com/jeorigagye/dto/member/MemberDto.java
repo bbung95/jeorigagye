@@ -20,4 +20,5 @@ public class MemberDto {
         this.membername = member.getMembername();
         this.name = member.getName();
     }
+
 }

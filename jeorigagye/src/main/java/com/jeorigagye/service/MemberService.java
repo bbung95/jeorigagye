@@ -8,6 +8,7 @@ import com.jeorigagye.repository.MemberRepsitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.util.Streamable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,15 +55,20 @@ public class MemberService {
 
         PageRequest page = PageRequest.of(search.getCulPage(), 10);
 
-        List<MemberDto> memberList = new ArrayList<>();
         Page<Member> findMembers = memberRepsitory.findByMembernameContaining(search.getSearchKeyword(), page);
 
-        for (Member member: findMembers) {
-            MemberDto memberDto = MemberDto.builder()
-                    .member(member)
-                    .build();
-            memberList.add(memberDto);
-        }
+        List<MemberDto> memberList = findMembers.getContent()
+                .stream()
+                .map(Member::toMemberDto)
+                .collect(Collectors.toList());
+
+//        List<MemberDto> memberList = new ArrayList<>();
+//        for (Member member: findMembers) {
+//            MemberDto memberDto = MemberDto.builder()
+//                    .member(member)
+//                    .build();
+//            memberList.add(memberDto);
+//        }
 
         return memberList;
     }
