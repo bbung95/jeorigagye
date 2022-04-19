@@ -31,12 +31,17 @@ public class Account extends BaseTimeEntity{
     private Category category;
 
     @Builder
-    public Account (String name, int price, AccountType type, Member member, Category category){
+    public Account (String name, int price, int type, Member member, Category category){
         this.name = name;
         this.price = price;
-        this.type = type;
-        setMember(member);
         this.category = category;
+        setMember(member);
+
+        if(type == 1){
+            this.type = AccountType.INCOME;
+        }else{
+            this.type = AccountType.EXPENDITURE;
+        }
     }
 
     public void setMember(Member member){

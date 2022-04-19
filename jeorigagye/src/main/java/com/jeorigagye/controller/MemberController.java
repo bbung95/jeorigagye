@@ -3,6 +3,7 @@ package com.jeorigagye.controller;
 import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,13 +15,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("join")
-    public Long memberJoin(@RequestBody MemberForm memberForm){
+    public ResponseEntity memberJoin(@RequestBody MemberForm memberForm){
 
-        System.out.println("memberForm = " + memberForm);
-
-        Long memberId = memberService.memberJoin(memberForm);
-
-        return memberId;
+        return memberService.memberJoin(memberForm);
     }
 
 //    @PostMapping("list")

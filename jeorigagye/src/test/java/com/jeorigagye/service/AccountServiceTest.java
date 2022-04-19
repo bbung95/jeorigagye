@@ -143,7 +143,7 @@ class AccountServiceTest {
         Account account = Account.builder()
                 .name("입출금")
                 .price(15000)
-                .type(type)
+                .type(1)
                 .category(category)
                 .member(member)
                 .build();

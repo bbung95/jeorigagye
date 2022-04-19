@@ -8,12 +8,12 @@ import com.jeorigagye.repository.MemberRepsitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.util.Streamable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class MemberService {
     private final MemberRepsitory memberRepsitory;
     private final PasswordEncoder passwordEncoder;
 
-    public Long memberJoin(MemberForm form){
+    public ResponseEntity<Long> memberJoin(MemberForm form){
 
         membernameDuplicatedCheck(form.getMembername());
 
@@ -37,10 +37,10 @@ public class MemberService {
                 .build();
         memberRepsitory.save(member);
 
-        return member.getId();
+        return new ResponseEntity<>(member.getId(), HttpStatus.OK);
     }
 
-    public MemberDto findById(Long memberId){
+    public ResponseEntity<MemberDto> findById(Long memberId){
 
         Member findMember = memberRepsitory.findById(memberId).get();
 
@@ -48,10 +48,10 @@ public class MemberService {
                 .member(findMember)
                 .build();
 
-        return memberDto;
+        return new ResponseEntity<>(memberDto, HttpStatus.OK);
     }
 
-    public List<MemberDto> findAll(Search search){
+    public ResponseEntity<List<MemberDto>> findAll(Search search){
 
         PageRequest page = PageRequest.of(search.getCulPage(), 10);
 
@@ -62,15 +62,7 @@ public class MemberService {
                 .map(Member::toMemberDto)
                 .collect(Collectors.toList());
 
-//        List<MemberDto> memberList = new ArrayList<>();
-//        for (Member member: findMembers) {
-//            MemberDto memberDto = MemberDto.builder()
-//                    .member(member)
-//                    .build();
-//            memberList.add(memberDto);
-//        }
-
-        return memberList;
+        return new ResponseEntity<>(memberList, HttpStatus.OK);
     }
 
     private void membernameDuplicatedCheck(String membername){

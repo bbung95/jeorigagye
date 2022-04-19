@@ -32,5 +32,4 @@ public class Friend extends BaseTimeEntity {
         this.target = target;
     }
 
-
 }

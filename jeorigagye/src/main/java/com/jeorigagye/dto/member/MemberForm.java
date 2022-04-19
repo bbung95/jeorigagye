@@ -10,10 +10,7 @@ import lombok.ToString;
 public class MemberForm {
 
     private String membername;
-
     private String password;
-
     private String name;
-
     private int salary;
 }

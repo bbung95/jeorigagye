@@ -11,10 +11,6 @@ public class FriendService {
 
     private final FriendRepository friendRepository;
 
-    public void addFriend(){
-
-    }
-
     public void friendDuplicatedCheck(Long memberId, Long targetId){
 
         Friend friend = friendRepository.findFriendByMemberIdAndTargetId(memberId, targetId);
