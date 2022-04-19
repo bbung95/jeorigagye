@@ -27,7 +27,7 @@ public class AccountService {
     private final MemberRepsitory memberRepsitory;
     private final CategoryRepository categoryRepository;
 
-    public ResponseEntity<Long> saveAccount(AccountForm accountForm){
+    public ResponseEntity<Long> addAccount(AccountForm accountForm){
 
         Member findMember = memberRepsitory.findById(accountForm.getMemberId()).get();
         Category findCategory = categoryRepository.findById(accountForm.getCatId()).get();

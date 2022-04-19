@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,10 +50,10 @@ class FriendServiceTest {
         friendRepository.save(friend);
 
         //then
-        List<Member> findFriends = friendRepository.findFriendByMemberId(member.getId());
+        Page<Member> findFriends = friendRepository.findFriendByMemberId(member.getId(), PageRequest.of(0, 10));
 
-        assertThat(findFriends.size()).isEqualTo(1);
-        assertThat(findFriends.get(0).getMembername()).isEqualTo(member2.getMembername());
+        assertThat(findFriends.getContent().size()).isEqualTo(1);
+        assertThat(findFriends.getContent().get(0).getMembername()).isEqualTo(member2.getMembername());
     }
     
     @Test
@@ -95,8 +97,8 @@ class FriendServiceTest {
         em.flush();
 
         //then
-        List<Member> findFriends = friendRepository.findFriendByMemberId(member.getId());
-        assertThat(findFriends.size()).isEqualTo(0);
+        Page<Member> findFriends = friendRepository.findFriendByMemberId(member.getId(), PageRequest.of(0, 10));
+        assertThat(findFriends.getContent().size()).isEqualTo(0);
     }
 
     public Member getMember(String membername){

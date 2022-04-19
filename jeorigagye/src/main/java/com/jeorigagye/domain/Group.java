@@ -19,7 +19,7 @@ public class Group extends BaseTimeEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "group" ,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "group" ,fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<GroupFriend> groupFriends = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,5 +30,12 @@ public class Group extends BaseTimeEntity {
     public Group(String name, Member member) {
         this.name = name;
         this.member = member;
+    }
+
+    public static Group builderGroup(String groupName, Member member){
+        return Group.builder()
+                .name(groupName)
+                .member(member)
+                .build();
     }
 }

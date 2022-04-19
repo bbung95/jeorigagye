@@ -29,4 +29,11 @@ public class GroupFriend extends BaseTimeEntity {
         this.group = group;
         this.friend = friend;
     }
+
+    public static GroupFriend builderGroupFriend(Group group, Friend friend){
+        return GroupFriend.builder()
+                .group(group)
+                .friend(friend)
+                .build();
+    }
 }

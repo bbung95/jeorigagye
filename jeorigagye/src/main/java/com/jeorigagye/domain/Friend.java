@@ -32,4 +32,10 @@ public class Friend extends BaseTimeEntity {
         this.target = target;
     }
 
+    public static Friend buliderFriend(Member member, Member target){
+        return Friend.builder()
+                .member(member)
+                .target(target)
+                .build();
+    }
 }
