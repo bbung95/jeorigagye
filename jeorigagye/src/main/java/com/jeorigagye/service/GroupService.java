@@ -34,7 +34,7 @@ public class GroupService {
         return new ResponseEntity(saveGroup.getId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Long> registGroupFriend(Long groupId, Long friendId){
+        public ResponseEntity<Long> registGroupFriend(Long groupId, Long friendId){
 
         Group findGroup = groupRepository.findById(groupId).get();
         Friend findFriend = friendRepository.findById(friendId).get();
