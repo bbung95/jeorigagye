@@ -1,6 +1,8 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
+import com.jeorigagye.dto.account.AccountDto;
+import com.jeorigagye.dto.member.MemberDto;
 import com.jeorigagye.enums.AccountType;
 import lombok.*;
 
@@ -49,4 +51,10 @@ public class Account extends BaseTimeEntity{
         member.getAccounts().add(this);
     }
 
+    public AccountDto toAccountDto(){
+
+        return AccountDto.builder()
+                .account(this)
+                .build();
+    }
 }

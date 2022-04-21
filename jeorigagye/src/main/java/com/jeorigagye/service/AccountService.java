@@ -4,8 +4,10 @@ import com.jeorigagye.domain.Account;
 import com.jeorigagye.domain.Category;
 import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.Search;
+import com.jeorigagye.dto.account.AccountDto;
 import com.jeorigagye.dto.account.AccountForm;
 import com.jeorigagye.dto.account.AccountSumPriceDto;
+import com.jeorigagye.dto.member.MemberDto;
 import com.jeorigagye.enums.AccountType;
 import com.jeorigagye.repository.AccountRepository;
 import com.jeorigagye.repository.CategoryRepository;
@@ -17,7 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,12 +48,17 @@ public class AccountService {
         return new ResponseEntity<>(account.getId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Page<Account>> findAll(Search search){
+    public ResponseEntity<List<AccountDto>> findAll(Search search){
 
         PageRequest pageRequest = PageRequest.of(search.getCulPage(), 10);
         Page<Account> findAccounts = accountRepository.findByTypeContaining(AccountType.INCOME.toString(), pageRequest);
 
-        return new ResponseEntity<>(findAccounts, HttpStatus.OK);
+        List<AccountDto> accountList = findAccounts.getContent()
+                .stream()
+                .map(Account::toAccountDto)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(accountList, HttpStatus.OK);
     }
 
     public ResponseEntity<AccountSumPriceDto> accountSumPrice(Long member_id){
