@@ -3,18 +3,15 @@ package com.jeorigagye.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/home")
     public String home(Model model){
 
-        System.out.println("home");
-
-        model.addAttribute("home", "welcome");
-
-        return "home";
+        return "welcome";
     }
 
 }

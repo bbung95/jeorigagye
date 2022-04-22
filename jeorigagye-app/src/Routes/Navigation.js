@@ -24,7 +24,9 @@ function Navigation({ isLogin, loginCallback }) {
                             <Link to="/home">
                                 <Button>홈</Button>
                             </Link>
-                            <Button>마이페이지</Button>
+                            <Link to="/mypage">
+                                <Button>마이페이지</Button>
+                            </Link>
                         </Nav>
                         <Link to="/login">
                             <Button variant='secondary'>
