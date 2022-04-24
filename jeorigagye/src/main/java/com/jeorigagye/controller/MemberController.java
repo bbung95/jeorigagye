@@ -20,7 +20,5 @@ public class MemberController {
         return memberService.memberJoin(memberForm);
     }
 
-//    @PostMapping("list")
-//    public List<>
 
 }

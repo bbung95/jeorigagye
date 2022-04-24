@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
@@ -7,26 +8,41 @@ import MyPage from "./Routes/MyPage";
 import Home from "./Routes/Home";
 
 function App() {
-  return (
+
+    return (
     <div>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layout />}>
-                    <Route path="/login" element={<Login />}/>
+                <Route path="/" element={<Layout/>}>
                     <Route path="/home" element={<Home />}/>
                     <Route path="/mypage" element={<MyPage />}/>
                 </Route>
             </Routes>
         </BrowserRouter>
     </div>
-  );
+    );
 }
 
 function Layout(){
+
+    const [isLogin, setIslogin] = useState(false);
+
+    const loginCallback = (isLogin) => {
+        setIslogin(isLogin);
+    }
+
     return (
         <div>
-            <Navigation/>
-            <Outlet/>
+            {isLogin ?
+                <>
+                    <Navigation loginCallback={loginCallback}/>
+                    <Outlet/>
+                </>
+                :
+                <>
+                    <Login loginCallback={loginCallback}/>
+                </>
+            }
         </div>
     );
 }

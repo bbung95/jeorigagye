@@ -1,12 +1,12 @@
 package com.jeorigagye.dto.member;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 public class MemberForm {
 
     private String membername;

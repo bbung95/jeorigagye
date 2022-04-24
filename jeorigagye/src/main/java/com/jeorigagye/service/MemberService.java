@@ -28,6 +28,7 @@ public class MemberService {
 
     public ResponseEntity<Long> memberJoin(MemberForm form){
 
+        System.out.println(form);
         membernameDuplicatedCheck(form.getMembername());
 
         Member member = Member.builder()
