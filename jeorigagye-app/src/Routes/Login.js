@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Sign from "./Sign.js";
+import {useNavigate} from "react-router-dom";
 
 import axios from 'axios';
 const _http = axios.create({
@@ -13,7 +13,7 @@ const _http = axios.create({
 });
 
 function Login({loginCallback}) {
-
+    const navigate = useNavigate();
     const [loginForm, setLoginForm] = useState(true);
 
     const [password, setPassword] = useState("");
@@ -21,31 +21,31 @@ function Login({loginCallback}) {
     const [passwordError, setpasswordError] = useState("");
     const [emailError, setemailError] = useState("");
 
-    const handleValidation = (event) => {
-        let formIsValid = true;
-
-        // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-        //     formIsValid = false;
-        //     setemailError("Email Not Valid");
-        //     return false;
-        // } else {
-        //     setemailError("");
-        //     formIsValid = true;
-        // }
-
-        if (!password.match(/^[a-zA-Z]{8,22}$/)) {
-            formIsValid = false;
-            setpasswordError(
-                "Only Letters and length must best min 8 Chracters and Max 22 Chracters"
-            );
-            return false;
-        } else {
-            setpasswordError("");
-            formIsValid = true;
-        }
-
-        return formIsValid;
-    };
+    // const handleValidation = (event) => {
+    //     let formIsValid = true;
+    //
+    //     // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
+    //     //     formIsValid = false;
+    //     //     setemailError("Email Not Valid");
+    //     //     return false;
+    //     // } else {
+    //     //     setemailError("");
+    //     //     formIsValid = true;
+    //     // }
+    //
+    //     if (!password.match(/^[a-zA-Z]{8,22}$/)) {
+    //         formIsValid = false;
+    //         setpasswordError(
+    //             "Only Letters and length must best min 8 Chracters and Max 22 Chracters"
+    //         );
+    //         return false;
+    //     } else {
+    //         setpasswordError("");
+    //         formIsValid = true;
+    //     }
+    //
+    //     return formIsValid;
+    // };
 
     const loginSubmit = () => {
 
@@ -55,24 +55,25 @@ function Login({loginCallback}) {
         })
 
         //if(handleValidation()){
+        const res = _http.post("/login", memberForm);
 
-            const res = _http.post("member/join", memberForm);
+        // 로그인 완료
+        res.then((result) => {
+            if(result.status == 200){
+                loginCallback(true);
+            }
+        })
 
-            console.log(res);
+        // 로그인 실패
+        res.catch((result) => {
+            alert("아이디와 비밀번호를 확인해주세요");
+            return;
+        })
         //}
-
-        loginCallback(true);
     };
-
-    const loginformCallback = (loginForm) => {
-        setLoginForm(loginForm)
-    }
-
-    console.log(loginForm, "loginForm")
 
     return (
         <div>
-            {loginForm ?
                 <Container className="h-100">
                     <div className="row d-flex justify-content-center align-items-center h-100">
                         <div className="col-md-4">
@@ -89,7 +90,6 @@ function Login({loginCallback}) {
                                         onChange={(event) => setMembername(event.target.value)}
                                     />
                                     <small id="emailHelp" className="text-danger form-text">
-                                        {emailError}
                                     </small>
                                 </div>
                                 <div className="form-group">
@@ -103,7 +103,6 @@ function Login({loginCallback}) {
                                         onChange={(event) => setPassword(event.target.value)}
                                     />
                                     <small id="passworderror" className="text-danger form-text">
-                                        {passwordError}
                                     </small>
                                 </div>
                                 <div className="form-group form-check">
@@ -117,16 +116,15 @@ function Login({loginCallback}) {
                                 <button type="button" className="btn btn-primary" onClick={loginSubmit}>
                                     로그인
                                 </button>
-                                <button type="button" className="btn btn-primary" onClick={() => setLoginForm(false)}>
+                                <button type="button" className="btn btn-primary" onClick={() => navigate("/sign")}
+                                        // onClick={() => setLoginForm(false)}
+                                >
                                     회원가입
                                 </button>
                             </form>
                         </div>
                     </div>
                 </Container>
-                :
-                <Sign loginformCallback={loginformCallback}/>
-            }
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
+import {useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
@@ -11,12 +12,13 @@ const _http = axios.create({
     withCredentials: true
 });
 
-function Sign({loginformCallback}) {
+function Sign() {
 
-    // const [password, setPassword] = useState("");
-    // const [membername, setMembername] = useState("");
-    // const [passwordError, setpasswordError] = useState("");
-    // const [emailError, setemailError] = useState("");
+    const navigate = useNavigate();
+
+    const [password, setPassword] = useState("");
+    const [membername, setMembername] = useState("");
+    const [name, setName] = useState("");
 
     // const handleValidation = (event) => {
     //     let formIsValid = true;
@@ -44,68 +46,82 @@ function Sign({loginformCallback}) {
     //     return formIsValid;
     // };
 
-    // const registMemberSubmit = () => {
-    //
-    //     const memberForm = JSON.stringify({
-    //         membername,
-    //         password
-    //     })
-    //
-    //     //if(handleValidation()){
-    //
-    //         const res = _http.post("member/join", memberForm);
-    //
-    //         console.log(res);
-    //     //}
-    //
-    // };
+    const registMemberSubmit = () => {
+
+        const memberForm = JSON.stringify({
+            membername,
+            password,
+            name
+        })
+
+        if(membername == ''){
+            alert("아이디를 입력해주세요.");
+        }
+
+        if(password == ''){
+            alert("비밀번호를 입력해주세요.");
+        }
+
+        if(name == ''){
+            alert("이름을 입력해주세요.");
+        }
+
+        //if(handleValidation()){
+        const res = _http.post("member/join", memberForm);
+
+        console.log(res, "res")
+
+        if(res != null){
+            alert("회원가입이 완료되었습니다.");
+            navigate("/")
+        }
+        //}
+
+    };
 
     return (
             <Container className="h-100">
                 <div className="row d-flex justify-content-center align-items-center h-100">
                     <div className="col-md-4">
                         <form id="loginform">
-                            {/*<div className="form-group">*/}
-                            {/*    <label>아이디</label>*/}
-                            {/*    <input*/}
-                            {/*        type="email"*/}
-                            {/*        className="form-control"*/}
-                            {/*        id="username"*/}
-                            {/*        name="username"*/}
-                            {/*        aria-describedby="emailHelp"*/}
-                            {/*        placeholder="아이디를 입력하세요"*/}
-                            {/*        onChange={(event) => setMembername(event.target.value)}*/}
-                            {/*    />*/}
-                            {/*    <small id="emailHelp" className="text-danger form-text">*/}
-                            {/*        {emailError}*/}
-                            {/*    </small>*/}
-                            {/*</div>*/}
-                            {/*<div className="form-group">*/}
-                            {/*    <label>비밀번호</label>*/}
-                            {/*    <input*/}
-                            {/*        type="password"*/}
-                            {/*        className="form-control"*/}
-                            {/*        id="password"*/}
-                            {/*        name="password"*/}
-                            {/*        placeholder="비밀번호를 입력하세요"*/}
-                            {/*        onChange={(event) => setPassword(event.target.value)}*/}
-                            {/*    />*/}
-                            {/*    <small id="passworderror" className="text-danger form-text">*/}
-                            {/*        {passwordError}*/}
-                            {/*    </small>*/}
-                            {/*</div>*/}
-                            <div className="form-group form-check">
+                            <div className="form-group">
+                                <label>아이디</label>
                                 <input
-                                    type="checkbox"
-                                    className="form-check-input"
-                                    id="exampleCheck1"
+                                    type="email"
+                                    className="form-control"
+                                    id="membername"
+                                    name="membername"
+                                    aria-describedby="emailHelp"
+                                    placeholder="아이디를 입력하세요"
+                                    onChange={(event) => setMembername(event.target.value)}
                                 />
-                                <label className="form-check-label">아이디 저장</label>
                             </div>
-                            <button type="button" className="btn btn-primary">
+                            <div className="form-group">
+                                <label>비밀번호</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    id="password"
+                                    name="password"
+                                    placeholder="비밀번호를 입력하세요"
+                                    onChange={(event) => setPassword(event.target.value)}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>이름</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    id="name"
+                                    name="name"
+                                    placeholder="이름을 입력하세요"
+                                    onChange={(event) => setName(event.target.value)}
+                                />
+                            </div>
+                            <button type="button" className="btn btn-primary" onClick={() => registMemberSubmit()}>
                                 등록
                             </button>
-                            <button type="button" className="btn btn-primary" onClick={() => loginformCallback(true)}>
+                            <button type="button" className="btn btn-primary" onClick={() => navigate("/")}>
                                 취소
                             </button>
                         </form>

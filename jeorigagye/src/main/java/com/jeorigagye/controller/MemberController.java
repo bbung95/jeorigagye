@@ -20,5 +20,4 @@ public class MemberController {
         return memberService.memberJoin(memberForm);
     }
 
-
 }
