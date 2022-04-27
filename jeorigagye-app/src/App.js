@@ -47,24 +47,4 @@ function App() {
     );
 }
 
-function Layout(){
-
-    const [isLogin, setIslogin] = useState(false);
-
-    return (
-        <div>
-            {/*{isLogin ?*/}
-            {/*    <>*/}
-            {/*        <Navigation loginCallback={loginCallback}/>*/}
-            {/*        /!*<Outlet/>*!/*/}
-            {/*    </>*/}
-            {/*    :*/}
-            {/*    <>*/}
-            {/*        <Login loginCallback={loginCallback}/>*/}
-            {/*    </>*/}
-            {/*}*/}
-        </div>
-    );
-}
-
 export default App;

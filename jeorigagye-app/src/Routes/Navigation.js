@@ -1,9 +1,11 @@
 import React from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Navigation({ loginCallback }) {
+
+    const navigate = useNavigate();
 
     const logout = () => {
         // axios({
@@ -15,6 +17,7 @@ function Navigation({ loginCallback }) {
         // });
 
         loginCallback(false);
+        navigate("/");
     }
 
     return (
