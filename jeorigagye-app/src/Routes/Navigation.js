@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function Navigation({ loginCallback }) {
 
-    const navigate = useNavigate();
+    var navigate = useNavigate();
 
     const logout = () => {
         // axios({

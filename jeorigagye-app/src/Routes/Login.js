@@ -13,7 +13,9 @@ const _http = axios.create({
 });
 
 function Login({loginCallback}) {
-    const navigate = useNavigate();
+
+    var navigate = useNavigate();
+
     const [loginForm, setLoginForm] = useState(true);
 
     const [membername, setMembername] = useState("");
@@ -24,7 +26,7 @@ function Login({loginCallback}) {
     const handleValidation = (event) => {
         let formIsValid = true;
 
-        if (membername == '') {
+        if (membername === '') {
             formIsValid = false;
             setMembernameError("아이디를 입력해주세요.");
             return false;
@@ -33,7 +35,7 @@ function Login({loginCallback}) {
             formIsValid = true;
         }
 
-        if (!password.match(/^[a-zA-Z]{8,22}$/)) {
+        if (password === '') {
             formIsValid = false;
             setpasswordError(
                 "비밀번호를 확인해주세요."
@@ -61,6 +63,7 @@ function Login({loginCallback}) {
             res.then((result) => {
                 if(result.status == 200){
                     loginCallback(true);
+                    navigate("/main");
                 }
             })
 

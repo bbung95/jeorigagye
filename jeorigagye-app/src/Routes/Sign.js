@@ -14,37 +14,11 @@ const _http = axios.create({
 
 function Sign() {
 
-    const navigate = useNavigate();
+    var navigate = useNavigate();
 
-    const [password, setPassword] = useState("");
     const [membername, setMembername] = useState("");
+    const [password, setPassword] = useState("");
     const [name, setName] = useState("");
-
-    // const handleValidation = (event) => {
-    //     let formIsValid = true;
-    //
-    //     // if (!email.match(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/)) {
-    //     //     formIsValid = false;
-    //     //     setemailError("Email Not Valid");
-    //     //     return false;
-    //     // } else {
-    //     //     setemailError("");
-    //     //     formIsValid = true;
-    //     // }
-    //
-    //     if (!password.match(/^[a-zA-Z]{8,22}$/)) {
-    //         formIsValid = false;
-    //         setpasswordError(
-    //             "Only Letters and length must best min 8 Chracters and Max 22 Chracters"
-    //         );
-    //         return false;
-    //     } else {
-    //         setpasswordError("");
-    //         formIsValid = true;
-    //     }
-    //
-    //     return formIsValid;
-    // };
 
     const registMemberSubmit = () => {
 
@@ -54,29 +28,26 @@ function Sign() {
             name
         })
 
-        if(membername == ''){
+        if(membername === ''){
             alert("아이디를 입력해주세요.");
         }
 
-        if(password == ''){
+        if(password === ''){
             alert("비밀번호를 입력해주세요.");
         }
 
-        if(name == ''){
+        if(name === ''){
             alert("이름을 입력해주세요.");
         }
 
         //if(handleValidation()){
         const res = _http.post("member/join", memberForm);
 
-        console.log(res, "res")
-
         if(res != null){
             alert("회원가입이 완료되었습니다.");
             navigate("/")
         }
         //}
-
     };
 
     return (
