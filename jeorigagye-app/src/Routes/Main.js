@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Container, Navbar, Nav } from "react-bootstrap";
+import {Container, ListGroup, ListGroupItem} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Main (){
@@ -18,11 +18,15 @@ function Main (){
       <Container>
           <div className="row d-flex justify-content-center align-items-center h-100">
               <div className="col-md-4">
-                  <h2>Main</h2>
-                  <ul>
-                      <li>1.</li>
-                      <li>2.</li>
-                  </ul>
+                  <ListGroup>
+                      <ListGroupItem header="Heading 1">Some body text</ListGroupItem>
+                      <ListGroupItem header="Heading 2" href="#">
+                          Linked item
+                      </ListGroupItem>
+                      <ListGroupItem header="Heading 3" bsStyle="danger">
+                          Danger styling
+                      </ListGroupItem>
+                  </ListGroup>;
               </div>
           </div>
       </Container>

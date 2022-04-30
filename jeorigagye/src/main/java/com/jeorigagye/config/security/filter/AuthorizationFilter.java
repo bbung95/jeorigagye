@@ -35,14 +35,15 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
 
         String jwtHeader = request.getHeader("Authorization");
-
+        System.out.println("jwtHeader = " + jwtHeader);
+        
         if(jwtHeader == null || jwtHeader.startsWith("Bearer")){
             chain.doFilter(request, response);
             return;
         }
 
         String token = jwtHeader.replace("Bearer ", "").trim();
-        String membername = JWT.require(Algorithm.HMAC512("cos")).build().verify(token).getClaim("membername").asString();
+        String membername = JWT.require(Algorithm.HMAC512("bbung")).build().verify(token).getClaim("membername").asString();
 
         if(membername != null && !membername.equals("")){
             Member findMember = memberRepsitory.findByMembername(membername)

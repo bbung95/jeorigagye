@@ -1,6 +1,8 @@
 package com.jeorigagye.config.security;
 
+import com.jeorigagye.config.security.filter.AuthorizationFilter;
 import com.jeorigagye.config.security.filter.JwtAuthenticationFilter;
+import com.jeorigagye.repository.MemberRepsitory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final MemberRepsitory memberRepsitory;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,6 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))
+                .addFilter(new AuthorizationFilter(authenticationManager(), memberRepsitory))
                 .authorizeRequests()
             .anyRequest().permitAll();
     }

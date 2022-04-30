@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Button, Container, Navbar, Nav } from "react-bootstrap";
+import React, { useState } from "react";
+import { Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useNavigate} from "react-router-dom";
 
 import axios from 'axios';
-const _http = axios.create({
+let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
         'content-type': 'application/json;charset=utf-8'
@@ -16,8 +16,6 @@ function Login({loginCallback}) {
 
     var navigate = useNavigate();
 
-    const [loginForm, setLoginForm] = useState(true);
-
     const [membername, setMembername] = useState("");
     const [password, setPassword] = useState("");
     const [membernameError, setMembernameError] = useState("");
@@ -27,23 +25,19 @@ function Login({loginCallback}) {
         let formIsValid = true;
 
         if (membername === '') {
-            formIsValid = false;
             setMembernameError("아이디를 입력해주세요.");
             return false;
         } else {
             setMembernameError("");
-            formIsValid = true;
         }
 
         if (password === '') {
-            formIsValid = false;
             setpasswordError(
                 "비밀번호를 확인해주세요."
             );
             return false;
         } else {
             setpasswordError("");
-            formIsValid = true;
         }
 
         return formIsValid;
@@ -61,7 +55,8 @@ function Login({loginCallback}) {
 
             // 로그인 완료
             res.then((result) => {
-                if(result.status == 200){
+                if(result.status === 200){
+                    console.log(result, "login")
                     loginCallback(true);
                     navigate("/main");
                 }

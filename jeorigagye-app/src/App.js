@@ -7,6 +7,15 @@ import Login from "./Routes/Login";
 import MyPage from "./Routes/MyPage";
 import Main from "./Routes/Main";
 import Sign from "./Routes/Sign";
+import axios from "axios";
+
+let _http = axios.create({
+    baseURL: 'http://localhost:8080',
+    headers: {
+        'content-type': 'application/json;charset=utf-8'
+    },
+    withCredentials: true
+});
 
 function App() {
 
@@ -18,17 +27,32 @@ function App() {
 
     useEffect(() =>
     {
-        //if(로그인 체크 api 서버 통신 성공하면) {
-        // setLogin(true)
-        // }else{
-        // setLogin(false);
-        // },
-
-        // if(isLogin){
-        //     navigate("/");
-        // }
+        if(checkUserLogin()) {
+            setIsLogin(true)
+        }else{
+            setIsLogin(false);
+        }
 
     },[])
+
+    const checkUserLogin = () => {
+
+        let result = false;
+        const res = _http.get("/member/check");
+
+        // 로그인 체크
+        res.then((result) => {
+            if(result.status === 200){
+                if(result.data){
+                    result = true;
+                }else{
+                    result = false;
+                }
+            }
+        })
+
+        return result;
+    }
 
     return (
     <div>

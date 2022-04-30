@@ -18,3 +18,6 @@ logging:
   level:
     org.hibernate.SQL: debug # Logger를 통한 디버그
     org.hibernate.type: trace # Query parameter 확인 => P6Spy lib 이용
+
+security:
+  jwtKey: bbung

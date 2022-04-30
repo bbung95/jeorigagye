@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -34,21 +36,15 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             Member member = objectMapper.readValue(request.getInputStream(), Member.class);
 
-            System.out.println("JwtAuthenticationFilter member = " + member.getMembername());
-            System.out.println("JwtAuthenticationFilter member = " + member.getPassword());
-
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(member.getMembername(), member.getPassword());
 
-            System.out.println("authenticationToken = "+authenticationToken);
-
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-            System.out.println("authentication = "+authentication);
-
             PrincipalDetail principalDetails = (PrincipalDetail) authentication.getPrincipal(); // 권한 처리를 위한 세션처리
+            System.out.println("로그인 완료됨 : " + principalDetails.getMember().getMembername());// 로그인 정상적으로 되었다는 뜻.
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            System.out.println("principalDetails = "+principalDetails);
 
             return authentication;
         } catch (IOException e) {
@@ -73,7 +69,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))
                 .withClaim("id", principalDetails.getMember().getId())
                 .withClaim("membername", principalDetails.getMember().getMembername())
-                .sign(Algorithm.HMAC512("cos"));
+                .sign(Algorithm.HMAC512("bbung"));
 
         response.addHeader("Authorization", "Bearer "+jwtToken);
     }

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Button, Container, Navbar, Nav } from "react-bootstrap";
+import React, { useState } from "react";
+import {Container} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from 'axios';
 
-const _http = axios.create({
+let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
         'content-type': 'application/json;charset=utf-8'
