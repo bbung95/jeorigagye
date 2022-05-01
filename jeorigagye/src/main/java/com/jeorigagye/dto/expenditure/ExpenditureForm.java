@@ -12,4 +12,5 @@ public class ExpenditureForm {
     private String name;
     private int price;
     private Long catId;
+    private Long memberId;
 }

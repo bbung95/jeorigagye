@@ -50,7 +50,8 @@ public class AccountService {
     public ResponseEntity<List<AccountDto>> findAll(Search search){
 
         PageRequest pageRequest = PageRequest.of(search.getCulPage(), 10);
-        Page<Account> findAccounts = accountRepository.findByTypeContaining(AccountType.INCOME.toString(), pageRequest);
+
+        Page<Account> findAccounts = accountRepository.findAccountBySaerch(AccountType.valueOf(search.getType()), pageRequest);
 
         List<AccountDto> accountList = findAccounts.getContent()
                 .stream()
