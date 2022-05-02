@@ -34,6 +34,12 @@ public class AccountController {
         return accountService.findAll(search);
     }
 
+    @DeleteMapping("{accountId}")
+    public ResponseEntity accountDelete(@PathVariable Long accountId){
+
+        return accountService.deleteAccount(accountId);
+    }
+
     @GetMapping("count")
     public ResponseEntity accountTotalCount(@AuthenticationPrincipal PrincipalDetail principalDetail){
 

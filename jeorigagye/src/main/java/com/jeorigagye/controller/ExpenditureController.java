@@ -36,7 +36,7 @@ public class ExpenditureController {
     }
 
     @DeleteMapping("{expenditureId}")
-    public ResponseEntity expenditureList(@PathVariable Long expenditureId){
+    public ResponseEntity expenditureDelete(@PathVariable Long expenditureId){
 
         return expenditureService.deleteExpenditure(expenditureId);
     }
