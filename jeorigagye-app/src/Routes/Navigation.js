@@ -2,22 +2,30 @@ import React from "react";
 import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from "axios";
+
+let _http = axios.create({
+    baseURL: 'http://localhost:8080',
+    headers: {
+        'content-type': 'application/json;charset=utf-8'
+    },
+    withCredentials: true
+});
 
 function Navigation({ loginCallback }) {
 
     var navigate = useNavigate();
 
     const logout = () => {
-        // axios({
-        //     url: "/user/logoutUser",
-        //     method: "POST",
-        // }).then((res) => {
-        //     localStorage.setItem("trip-token", "");
-        //     loginCallback(res.data);
-        // });
 
-        loginCallback(false);
-        navigate("/");
+        let res = _http.post("/member/logout");
+
+        res.then((result) => {
+            if(result.status  === 200){
+                loginCallback(false);
+                navigate("/");
+            }
+        })
     }
 
     return (

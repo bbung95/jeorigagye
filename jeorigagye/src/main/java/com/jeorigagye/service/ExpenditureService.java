@@ -1,13 +1,11 @@
 package com.jeorigagye.service;
 
-import com.jeorigagye.domain.Account;
 import com.jeorigagye.domain.Category;
 import com.jeorigagye.domain.Expenditure;
 import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.Search;
-import com.jeorigagye.dto.account.AccountDto;
+import com.jeorigagye.dto.expenditure.ExpenditureDto;
 import com.jeorigagye.dto.expenditure.ExpenditureForm;
-import com.jeorigagye.enums.AccountType;
 import com.jeorigagye.repository.CategoryRepository;
 import com.jeorigagye.repository.ExpenditureRepository;
 import com.jeorigagye.repository.MemberRepsitory;
@@ -47,17 +45,16 @@ public class ExpenditureService {
         return new ResponseEntity<>(saveExepnditure.getId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<Expenditure>> findAll(Search search){
+    public ResponseEntity<List<ExpenditureDto>> findAll(Search search){
 
         PageRequest pageRequest = PageRequest.of(search.getCulPage(), 10);
 
         Page<Expenditure> findExpenditures = expenditureRepository.findAll(pageRequest);
 
-        List<Expenditure> expenditureList = new ArrayList<>();
-//        findExpenditures.getContent()
-//                .stream()
-//                .map(Expenditure::t)
-//                .collect(Collectors.toList());
+        List<ExpenditureDto> expenditureList = findExpenditures.getContent()
+                                                .stream()
+                                                .map(Expenditure::toExpenditureDto)
+                                                .collect(Collectors.toList());
 
         return new ResponseEntity<>(expenditureList, HttpStatus.OK);
     }

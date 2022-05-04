@@ -1,15 +1,15 @@
 package com.jeorigagye.controller;
 
 import com.jeorigagye.config.security.auth.PrincipalDetail;
-import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+import javax.servlet.http.HttpSession;
 
 
 @RestController
@@ -25,12 +25,18 @@ public class MemberController {
         return memberService.memberJoin(memberForm);
     }
 
+    @PostMapping("logout")
+    public ResponseEntity memberLogout(HttpSession session){
+
+        session.invalidate();
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping("check")
-    public boolean memberLoginCheck(@AuthenticationPrincipal Principal principal){
+    public boolean memberLoginCheck(@AuthenticationPrincipal PrincipalDetail principalDetail){
 
-        System.out.println(principal);
-
-        if(principal != null){
+        if(principalDetail != null){
             return true;
         }
 

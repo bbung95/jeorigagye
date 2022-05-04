@@ -27,11 +27,9 @@ function App() {
 
     useEffect(() =>
     {
-        if(checkUserLogin()) {
-            setIsLogin(true)
-        }else{
-            setIsLogin(false);
-        }
+        console.log("1.")
+        setIsLogin(checkUserLogin())
+        console.log("2.")
 
     },[])
 
@@ -42,10 +40,15 @@ function App() {
 
         // 로그인 체크
         res.then((result) => {
+
+            console.log(result, "result")
+
             if(result.status === 200){
                 if(result.data){
+                    console.log("true")
                     result = true;
                 }else{
+                    console.log("false")
                     result = false;
                 }
             }
@@ -54,6 +57,7 @@ function App() {
         return result;
     }
 
+    console.log(isLogin, "isLogin")
     return (
     <div>
         <BrowserRouter>

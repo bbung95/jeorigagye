@@ -1,6 +1,7 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
+import com.jeorigagye.dto.expenditure.ExpenditureDto;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -42,5 +43,12 @@ public class Expenditure extends BaseTimeEntity {
         this.name = name;
         this.member = member;
         this.category = category;
+    }
+
+    public ExpenditureDto toExpenditureDto(){
+
+        return ExpenditureDto.builder()
+                .expenditure(this)
+                .build();
     }
 }
