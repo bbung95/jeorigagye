@@ -52,7 +52,7 @@ public class AccountService {
 
         PageRequest pageRequest = PageRequest.of(search.getCulPage(), 10);
 
-        Page<Account> findAccounts = accountRepository.findAccountBySaerch(AccountType.valueOf(search.getType()), pageRequest);
+        Page<Account> findAccounts = accountRepository.findAccountBySaerch(search.getMemberId(), AccountType.valueOf(search.getType()), pageRequest);
 
         List<AccountDto> accountList = findAccounts.getContent()
                 .stream()

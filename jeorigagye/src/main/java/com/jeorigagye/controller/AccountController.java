@@ -29,7 +29,10 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity accountList(@RequestBody Search search){
+    public ResponseEntity accountList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
+
+        Member member = (Member)principalDetail.getMember();
+        search.setMemberId(member.getId());
 
         return accountService.findAll(search);
     }

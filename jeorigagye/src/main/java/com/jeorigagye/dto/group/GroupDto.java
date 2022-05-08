@@ -1,8 +1,8 @@
-package com.jeorigagye.domain;
+package com.jeorigagye.dto.group;
 
+import com.jeorigagye.domain.GroupFriend;
+import com.jeorigagye.domain.Member;
 import com.jeorigagye.domain.extend.BaseTimeEntity;
-import com.jeorigagye.dto.account.AccountDto;
-import com.jeorigagye.dto.group.GroupDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "groups")
-public class Group extends BaseTimeEntity {
+public class GroupDto extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,22 +29,15 @@ public class Group extends BaseTimeEntity {
     private Member member;
 
     @Builder
-    public Group(String name, Member member) {
+    public GroupDto(String name, Member member) {
         this.name = name;
         this.member = member;
     }
 
-    public static Group builderGroup(String groupName, Member member){
-        return Group.builder()
+    public static GroupDto builderGroup(String groupName, Member member){
+        return GroupDto.builder()
                 .name(groupName)
                 .member(member)
-                .build();
-    }
-
-    public GroupDto toGroupDto(){
-        return GroupDto.builder()
-                .name(this.name)
-                .member(this.member)
                 .build();
     }
 }

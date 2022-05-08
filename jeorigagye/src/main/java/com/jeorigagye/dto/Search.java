@@ -12,5 +12,6 @@ public class Search {
     private String searchKeyword;
     private String type;
     private int culPage;
+    private Long memberId;
 
 }

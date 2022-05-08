@@ -1,6 +1,7 @@
 package com.jeorigagye.controller;
 
 import com.jeorigagye.config.security.auth.PrincipalDetail;
+import com.jeorigagye.dto.Search;
 import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,12 @@ public class MemberController {
         session.invalidate();
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity memberList(Search search){
+
+        return  memberService.findAll(search);
     }
 
     @GetMapping("check")

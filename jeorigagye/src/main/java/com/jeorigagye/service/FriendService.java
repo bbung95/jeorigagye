@@ -2,6 +2,7 @@ package com.jeorigagye.service;
 
 import com.jeorigagye.domain.Friend;
 import com.jeorigagye.domain.Member;
+import com.jeorigagye.dto.Search;
 import com.jeorigagye.dto.member.MemberDto;
 import com.jeorigagye.repository.FriendRepository;
 import com.jeorigagye.repository.MemberRepsitory;
@@ -23,10 +24,10 @@ public class FriendService {
     private final FriendRepository friendRepository;
     private final MemberRepsitory memberRepsitory;
 
-    public ResponseEntity<List<MemberDto>> findFriendList(Long memberId){
+    public ResponseEntity<List<MemberDto>> findFriendList(Search search){
 
         PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<Member> findMembers = friendRepository.findFriendByMemberId(memberId, pageRequest);
+        Page<Member> findMembers = friendRepository.findFriendByMemberId(search.getMemberId(), pageRequest);
 
         List<MemberDto> memberList = findMembers.getContent()
                 .stream()

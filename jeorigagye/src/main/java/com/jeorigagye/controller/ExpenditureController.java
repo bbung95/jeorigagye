@@ -30,7 +30,10 @@ public class ExpenditureController {
     }
 
     @GetMapping
-    public ResponseEntity expenditureList(@RequestBody Search search){
+    public ResponseEntity expenditureList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
+
+        Member member = (Member)principalDetail.getMember();
+        search.setMemberId(member.getId());
 
         return expenditureService.findAll(search);
     }

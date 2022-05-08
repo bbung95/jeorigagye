@@ -2,6 +2,7 @@ package com.jeorigagye.controller;
 
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
+import com.jeorigagye.dto.Search;
 import com.jeorigagye.service.FriendService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +25,12 @@ public class FriendController {
     }
 
     @GetMapping
-    public ResponseEntity friendList(@AuthenticationPrincipal PrincipalDetail principalDetail){
+    public ResponseEntity friendList(@AuthenticationPrincipal PrincipalDetail principalDetail, Search search){
 
         Member member = (Member)principalDetail.getMember();
+        search.setMemberId(member.getId());
 
-        return friendService.findFriendList(member.getId());
+        return friendService.findFriendList(search);
     }
 
     @DeleteMapping("{targetId}")

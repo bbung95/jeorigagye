@@ -1,6 +1,7 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
+import com.jeorigagye.dto.groupFriend.GroupFriendDto;
 import com.jeorigagye.repository.GroupFriendRepository;
 import lombok.*;
 
@@ -34,6 +35,14 @@ public class GroupFriend extends BaseTimeEntity {
         return GroupFriend.builder()
                 .group(group)
                 .friend(friend)
+                .build();
+    }
+
+    public GroupFriendDto toGroupFriendDto(){
+        return GroupFriendDto.builder()
+                .id(this.id)
+                .friend(this.friend)
+                .group(this.group)
                 .build();
     }
 }

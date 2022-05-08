@@ -49,7 +49,7 @@ public class ExpenditureService {
 
         PageRequest pageRequest = PageRequest.of(search.getCulPage(), 10);
 
-        Page<Expenditure> findExpenditures = expenditureRepository.findAll(pageRequest);
+        Page<Expenditure> findExpenditures = expenditureRepository.findExpenditureBySearch(search.getMemberId(), pageRequest);
 
         List<ExpenditureDto> expenditureList = findExpenditures.getContent()
                                                 .stream()

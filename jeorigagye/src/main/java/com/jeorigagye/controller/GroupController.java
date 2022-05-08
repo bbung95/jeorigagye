@@ -2,6 +2,7 @@ package com.jeorigagye.controller;
 
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
+import com.jeorigagye.dto.Search;
 import com.jeorigagye.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,21 @@ public class GroupController {
         Member member = (Member)principalDetail.getMember();
 
         return groupService.addGroup(member.getId(), groupName);
+    }
+
+    @GetMapping
+    public ResponseEntity groupList(@AuthenticationPrincipal PrincipalDetail principalDetail, Search search){
+
+        Member member = (Member)principalDetail.getMember();
+        search.setMemberId(member.getId());
+
+        return groupService.findAll(search);
+    }
+
+    @GetMapping("friend/{groupId}")
+    public ResponseEntity groupFriendList(@PathVariable Long groupId, Search search){
+
+        return groupService.findFriendAll(groupId, search);
     }
 
     @PostMapping("friend")
