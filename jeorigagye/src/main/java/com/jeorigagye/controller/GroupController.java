@@ -25,7 +25,7 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity groupList(@AuthenticationPrincipal PrincipalDetail principalDetail, Search search){
+    public ResponseEntity groupList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
 
         Member member = (Member)principalDetail.getMember();
         search.setMemberId(member.getId());
@@ -34,7 +34,7 @@ public class GroupController {
     }
 
     @GetMapping("friend/{groupId}")
-    public ResponseEntity groupFriendList(@PathVariable Long groupId, Search search){
+    public ResponseEntity groupFriendList(@PathVariable Long groupId, @RequestBody Search search){
 
         return groupService.findFriendAll(groupId, search);
     }

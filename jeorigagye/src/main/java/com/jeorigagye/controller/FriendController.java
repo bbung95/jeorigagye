@@ -25,7 +25,7 @@ public class FriendController {
     }
 
     @GetMapping
-    public ResponseEntity friendList(@AuthenticationPrincipal PrincipalDetail principalDetail, Search search){
+    public ResponseEntity friendList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
 
         Member member = (Member)principalDetail.getMember();
         search.setMemberId(member.getId());

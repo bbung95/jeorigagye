@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,8 +24,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
+import static lombok.extern.slf4j.Slf4j.*;
+
 // 로그인 요청시 JwtAuthenticationFilter를 타게된다.
 @RequiredArgsConstructor
+@Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
@@ -61,7 +65,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         PrincipalDetail principalDetails = (PrincipalDetail) authResult.getPrincipal();
 
-        System.out.println("successfulAuthentication");
+        log.info("successfulAuthentication");
         
         // RSA방식이 아닌 Hash암호방식
         String jwtToken = JWT.create()

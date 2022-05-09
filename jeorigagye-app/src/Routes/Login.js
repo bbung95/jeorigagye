@@ -55,8 +55,10 @@ function Login({loginCallback}) {
 
             // 로그인 완료
             res.then((result) => {
+
                 if(result.status === 200){
-                    console.log(result, "login")
+
+                    localStorage.setItem("login-key",result.headers.authorization);
                     loginCallback(true);
                     navigate("/main");
                 }

@@ -35,7 +35,7 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity memberList(Search search){
+    public ResponseEntity memberList(@RequestBody Search search){
 
         return  memberService.findAll(search);
     }

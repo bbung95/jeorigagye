@@ -2,16 +2,17 @@ package com.jeorigagye.config.security.filter;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
 import com.jeorigagye.repository.MemberRepsitory;
-import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import javax.servlet.FilterChain;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+@Slf4j
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
     private MemberRepsitory memberRepsitory;
@@ -32,10 +34,10 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-        System.out.println("인증이나 권한이 필요한 주소 요청이 됨.");
+        log.info("인증이나 권한이 필요한 주소 요청이 됨.");
 
         String jwtHeader = request.getHeader("Authorization");
-        System.out.println("jwtHeader = " + jwtHeader);
+        log.info("jwtHeader : {}", jwtHeader);
         
         if(jwtHeader == null || jwtHeader.startsWith("Bearer")){
             chain.doFilter(request, response);
@@ -43,7 +45,15 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         String token = jwtHeader.replace("Bearer ", "").trim();
-        String membername = JWT.require(Algorithm.HMAC512("bbung")).build().verify(token).getClaim("membername").asString();
+        String membername = null;
+
+        try{
+            membername = JWT.require(Algorithm.HMAC512("bbung")).build().verify(token).getClaim("membername").asString();
+        }catch (TokenExpiredException e){
+            log.info("토큰이 만료되었습니다.");
+        }catch (JWTVerificationException e){
+            log.info("유효하지 않은 토큰입니다.");
+        }
 
         if(membername != null && !membername.equals("")){
             Member findMember = memberRepsitory.findByMembername(membername)
