@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import {useNavigate} from "react-router-dom";
 
 import axios from 'axios';
+import {useEffect} from "@types/react";
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
@@ -12,7 +13,7 @@ let _http = axios.create({
     withCredentials: true
 });
 
-function Login({loginCallback}) {
+function Login({loginCallback, checkUserLogin}) {
 
     var navigate = useNavigate();
 
@@ -20,6 +21,11 @@ function Login({loginCallback}) {
     const [password, setPassword] = useState("");
     const [membernameError, setMembernameError] = useState("");
     const [passwordError, setpasswordError] = useState("");
+
+    useEffect(() =>
+    {
+        checkUserLogin();
+    }, [])
 
     const handleValidation = (event) => {
         let formIsValid = true;
@@ -66,14 +72,12 @@ function Login({loginCallback}) {
 
             // 로그인 실패
             res.catch((result) => {
-                alert("아이디와 비밀번호를 확인해주세요.");
+                alert("아이디와 비밀번호가 일치하지않습니다.");
                 return;
             })
-        }else{
-            alert("아이디와 비밀번호를 확인해주세요.");
-            return;
         }
     };
+
 
     return (
         <div>

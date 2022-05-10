@@ -1,17 +1,13 @@
 package com.jeorigagye.controller;
 
-import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.dto.Search;
 import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,14 +22,6 @@ public class MemberController {
         return memberService.memberJoin(memberForm);
     }
 
-    @PostMapping("logout")
-    public ResponseEntity memberLogout(HttpSession session){
-
-        session.invalidate();
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     @GetMapping
     public ResponseEntity memberList(@RequestBody Search search){
 
@@ -41,14 +29,19 @@ public class MemberController {
     }
 
     @GetMapping("check")
-    public boolean memberLoginCheck(@AuthenticationPrincipal PrincipalDetail principalDetail){
+    public boolean memberLoginCheck(HttpServletRequest request){
 
-        if(principalDetail != null){
+        String token = request.getHeader("Authorization");
+
+        System.out.println("token = " + token);
+
+        if(token != null){
             return true;
         }
 
+        System.out.println("token = " + token);
+        
         return false;
     }
-
 
 }

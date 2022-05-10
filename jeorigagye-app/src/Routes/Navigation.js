@@ -18,14 +18,15 @@ function Navigation({ loginCallback }) {
 
     const logout = () => {
 
-        let res = _http.post("/member/logout");
-
-        res.then((result) => {
-            if(result.status  === 200){
+        // let res = _http.post("/member/logout");
+        //
+        // res.then((result) => {
+        //     if(result.status  === 200){
+                localStorage.removeItem("login-key");
                 loginCallback(false);
                 navigate("/");
-            }
-        })
+        //     }
+        // })
     }
 
     return (

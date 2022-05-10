@@ -12,7 +12,8 @@ import axios from "axios";
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
-        'content-type': 'application/json;charset=utf-8'
+        'content-type': 'application/json;charset=utf-8',
+        'Authorization': localStorage.getItem('login-key')
     },
     withCredentials: true
 });
@@ -25,20 +26,12 @@ function App() {
         setIsLogin(isLogin);
     }
 
-    useEffect(() =>
-    {
-        console.log("1.")
-        setIsLogin(checkUserLogin())
-        console.log("2.")
-
-    },[])
-
-    const checkUserLogin = () => {
+    // 로그인 체크
+    const checkUserLogin = async () => {
 
         let result = false;
         const res = _http.get("/member/check");
 
-        // 로그인 체크
         res.then((result) => {
 
             console.log(result, "result")
@@ -54,10 +47,16 @@ function App() {
             }
         })
 
-        return result;
+        loginCallback(result);
     }
 
-    console.log(isLogin, "isLogin")
+    useEffect(() =>
+    {
+        console.log("1.")
+        console.log("2.")
+
+    }, [])
+
     return (
     <div>
         <BrowserRouter>
@@ -69,7 +68,7 @@ function App() {
                     </Route>
                     :
                     <>
-                        <Route path="/" element={<Login loginCallback={loginCallback}/>}/>
+                        <Route path="/" element={<Login loginCallback={loginCallback} checkUserLogin={checkUserLogin}/>}/>
                         <Route path="/sign" element={<Sign/>} />
                     </>
                 }

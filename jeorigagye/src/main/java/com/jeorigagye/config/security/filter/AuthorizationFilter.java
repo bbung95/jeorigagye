@@ -59,12 +59,12 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
             Member findMember = memberRepsitory.findByMembername(membername)
                     .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
 
-            PrincipalDetail principalDetails = new PrincipalDetail(findMember);
+            //PrincipalDetail principalDetails = new PrincipalDetail(findMember);
 
             // JWT 토큰 서명을 통해서 서명이 정상이면 Authentication 객체를 만들어준다.
-            Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
+            //Authentication authentication = new UsernamePasswordAuthenticationToken(principalDetails, null, principalDetails.getAuthorities());
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            //SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         chain.doFilter(request, response);
