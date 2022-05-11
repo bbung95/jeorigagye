@@ -2,9 +2,8 @@ import React, { useState } from "react";
 import { Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useNavigate} from "react-router-dom";
-
 import axios from 'axios';
-import {useEffect} from "@types/react";
+
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
@@ -13,7 +12,7 @@ let _http = axios.create({
     withCredentials: true
 });
 
-function Login({loginCallback, checkUserLogin}) {
+function Login({loginCallback}) {
 
     var navigate = useNavigate();
 
@@ -21,11 +20,6 @@ function Login({loginCallback, checkUserLogin}) {
     const [password, setPassword] = useState("");
     const [membernameError, setMembernameError] = useState("");
     const [passwordError, setpasswordError] = useState("");
-
-    useEffect(() =>
-    {
-        checkUserLogin();
-    }, [])
 
     const handleValidation = (event) => {
         let formIsValid = true;

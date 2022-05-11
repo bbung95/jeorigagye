@@ -53,6 +53,7 @@ function App() {
     useEffect(() =>
     {
         console.log("1.")
+        checkUserLogin();
         console.log("2.")
 
     }, [])
@@ -68,7 +69,7 @@ function App() {
                     </Route>
                     :
                     <>
-                        <Route path="/" element={<Login loginCallback={loginCallback} checkUserLogin={checkUserLogin}/>}/>
+                        <Route path="/" element={<Login loginCallback={loginCallback}/>}/>
                         <Route path="/sign" element={<Sign/>} />
                     </>
                 }

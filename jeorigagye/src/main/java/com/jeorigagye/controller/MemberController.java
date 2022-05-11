@@ -28,18 +28,24 @@ public class MemberController {
         return  memberService.findAll(search);
     }
 
+    @GetMapping("{memberId}")
+    public ResponseEntity memberDetail(@PathVariable Long memberId){
+
+        return memberService.findById(memberId);
+    }
+
     @GetMapping("check")
     public boolean memberLoginCheck(HttpServletRequest request){
 
         String token = request.getHeader("Authorization");
 
-        System.out.println("token = " + token);
+        System.out.println("36Line token");
 
         if(token != null){
             return true;
         }
 
-        System.out.println("token = " + token);
+        System.out.println("42Line token");
         
         return false;
     }

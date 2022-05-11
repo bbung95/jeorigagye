@@ -30,14 +30,17 @@ function Sign() {
 
         if(membername === ''){
             alert("아이디를 입력해주세요.");
+            return;
         }
 
         if(password === ''){
             alert("비밀번호를 입력해주세요.");
+            return;
         }
 
         if(name === ''){
             alert("이름을 입력해주세요.");
+            return;
         }
 
         //if(handleValidation()){
