@@ -60,7 +60,6 @@ function Login({loginCallback}) {
 
                     localStorage.setItem("login-key",result.headers.authorization);
                     loginCallback(true);
-                    navigate("/main");
                 }
             })
 

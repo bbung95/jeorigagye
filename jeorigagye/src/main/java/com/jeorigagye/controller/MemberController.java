@@ -39,13 +39,17 @@ public class MemberController {
 
         String token = request.getHeader("Authorization");
 
-        System.out.println("36Line token");
+        System.out.println("token = " + token);
 
-        if(token != null){
+        System.out.println("token.equals(\"null\") = " + token.equals("null"));
+
+
+        if(!token.equals("null")){
+            System.out.println("45Line");
             return true;
         }
 
-        System.out.println("42Line token");
+        System.out.println("52Line token");
         
         return false;
     }

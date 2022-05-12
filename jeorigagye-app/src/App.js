@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import {BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Navigation from "./Routes/Navigation";
-import Login from "./Routes/Login";
 import MyPage from "./Routes/MyPage";
 import Main from "./Routes/Main";
-import Sign from "./Routes/Sign";
 import axios from "axios";
+import LayOut from "./Routes/LayOut";
+import Login from "./Routes/Login";
+import Sign from "./Routes/Sign";
 
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
@@ -26,34 +27,26 @@ function App() {
         setIsLogin(isLogin);
     }
 
-    // 로그인 체크
-    const checkUserLogin = async () => {
+    useEffect(() =>
+    {
+        console.log(isLogin, "islogin")
+        console.log("1.")
 
-        let result = false;
         const res = _http.get("/member/check");
 
         res.then((result) => {
 
-            console.log(result, "result")
-
             if(result.status === 200){
                 if(result.data){
                     console.log("true")
-                    result = true;
+                    setIsLogin(true);
                 }else{
                     console.log("false")
-                    result = false;
+                    setIsLogin(false);
                 }
             }
         })
 
-        loginCallback(result);
-    }
-
-    useEffect(() =>
-    {
-        console.log("1.")
-        checkUserLogin();
         console.log("2.")
 
     }, [])
@@ -64,14 +57,14 @@ function App() {
             <Routes>
                 {isLogin ?
                     <Route path="/" element={<Navigation loginCallback={loginCallback}/>}>
-                        <Route path="/main" element={<Main/>} />
+                        <Route path="/" element={<Main/>} />
                         <Route path="/mypage" element={<MyPage/>} />
                     </Route>
                     :
-                    <>
+                    <Route path="/" element={<LayOut/>}>
                         <Route path="/" element={<Login loginCallback={loginCallback}/>}/>
                         <Route path="/sign" element={<Sign/>} />
-                    </>
+                    </Route>
                 }
             </Routes>
         </BrowserRouter>

@@ -36,7 +36,7 @@ function Navigation({ loginCallback }) {
                     <Navbar.Brand>저리가계</Navbar.Brand>
                         <>
                             <Nav className='me-auto white'>
-                                <Link to="/main">
+                                <Link to="/">
                                     <Button>홈</Button>
                                 </Link>
                                 <Link to="/">
