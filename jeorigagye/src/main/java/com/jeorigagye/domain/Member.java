@@ -55,4 +55,8 @@ public class Member extends BaseTimeEntity {
                 .member(this)
                 .build();
     }
+
+    public void changeMemberInfo(MemberDto memberDto){
+        this.name = memberDto.getName();
+    }
 }

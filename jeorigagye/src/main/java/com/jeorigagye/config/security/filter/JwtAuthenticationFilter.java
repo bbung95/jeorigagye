@@ -31,6 +31,9 @@ import static lombok.extern.slf4j.Slf4j.*;
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    @Value("${security.jwtKey}")
+    private String jwtKey;
+
     private final AuthenticationManager authenticationManager;
 
     @Override
@@ -46,9 +49,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
             PrincipalDetail principalDetails = (PrincipalDetail) authentication.getPrincipal(); // 권한 처리를 위한 세션처리
-            System.out.println("로그인 완료됨 : " + principalDetails.getMember().getMembername());// 로그인 정상적으로 되었다는 뜻.
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
 
             return authentication;
         } catch (IOException e) {
@@ -66,11 +67,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetail principalDetails = (PrincipalDetail) authResult.getPrincipal();
 
         log.info("successfulAuthentication");
-        
+
+        log.info("jwtKey = {}", jwtKey);
+
         // RSA방식이 아닌 Hash암호방식
         String jwtToken = JWT.create()
                 .withSubject("cos토큰")
-                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*10)))
+                .withExpiresAt(new Date(System.currentTimeMillis()+(60000*100)))
                 .withClaim("id", principalDetails.getMember().getId())
                 .withClaim("membername", principalDetails.getMember().getMembername())
                 .sign(Algorithm.HMAC512("bbung"));

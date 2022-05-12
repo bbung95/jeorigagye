@@ -1,17 +1,14 @@
 package com.jeorigagye.controller;
 
-import com.jeorigagye.config.security.auth.PrincipalDetail;
-import com.jeorigagye.domain.Expenditure;
-import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.Search;
-import com.jeorigagye.dto.account.AccountForm;
 import com.jeorigagye.dto.expenditure.ExpenditureForm;
-import com.jeorigagye.service.AccountService;
 import com.jeorigagye.service.ExpenditureService;
+import com.jeorigagye.util.AuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,19 +18,19 @@ public class ExpenditureController {
     private final ExpenditureService expenditureService;
 
     @PostMapping("regist")
-    public ResponseEntity expenditureRegist(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody ExpenditureForm expenditureForm){
+    public ResponseEntity expenditureRegist(HttpServletRequest request, @RequestBody ExpenditureForm expenditureForm){
 
-        Member member = (Member)principalDetail.getMember();
-        expenditureForm.setMemberId(member.getId());
+        Long memberId = AuthToken.tokenParse(request);
+        expenditureForm.setMemberId(memberId);
 
         return expenditureService.addExpenditure(expenditureForm);
     }
 
     @GetMapping
-    public ResponseEntity expenditureList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
+    public ResponseEntity expenditureList(HttpServletRequest request, @RequestBody Search search){
 
-        Member member = (Member)principalDetail.getMember();
-        search.setMemberId(member.getId());
+        Long memberId = AuthToken.tokenParse(request);
+        search.setMemberId(memberId);
 
         return expenditureService.findAll(search);
     }
@@ -45,10 +42,10 @@ public class ExpenditureController {
     }
 
     @GetMapping("count")
-    public ResponseEntity expenditureTotalCount(@AuthenticationPrincipal PrincipalDetail principalDetail){
+    public ResponseEntity expenditureTotalCount(HttpServletRequest request){
 
-        Member member = (Member)principalDetail.getMember();
+        Long memberId = AuthToken.tokenParse(request);
 
-        return expenditureService.findExpenditureSumPrice(member.getId());
+        return expenditureService.findExpenditureSumPrice(memberId);
     }
 }

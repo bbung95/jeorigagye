@@ -66,6 +66,15 @@ public class MemberService {
         return new ResponseEntity<>(memberList, HttpStatus.OK);
     }
 
+    @Transactional
+    public ResponseEntity<Long> memberUpdate(MemberDto memberDto){
+
+        Member findMember = memberRepsitory.findById(memberDto.getId()).get();
+        findMember.changeMemberInfo(memberDto);
+
+        return new ResponseEntity<>(memberDto.getId(), HttpStatus.OK);
+    }
+
     private void membernameDuplicatedCheck(String membername){
 
         Optional<Member> findMember = memberRepsitory.findByMembername(membername);

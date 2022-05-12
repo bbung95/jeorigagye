@@ -1,13 +1,13 @@
 package com.jeorigagye.controller;
 
-import com.jeorigagye.config.security.auth.PrincipalDetail;
-import com.jeorigagye.domain.Member;
 import com.jeorigagye.dto.Search;
 import com.jeorigagye.service.GroupService;
+import com.jeorigagye.util.AuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,18 +17,18 @@ public class GroupController {
     private final GroupService groupService;
 
     @PostMapping("regist")
-    public ResponseEntity groupRegist(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestParam String groupName){
+    public ResponseEntity groupRegist(HttpServletRequest request, @RequestParam String groupName){
 
-        Member member = (Member)principalDetail.getMember();
+        Long memberId = AuthToken.tokenParse(request);
 
-        return groupService.addGroup(member.getId(), groupName);
+        return groupService.addGroup(memberId, groupName);
     }
 
     @GetMapping
-    public ResponseEntity groupList(@AuthenticationPrincipal PrincipalDetail principalDetail, @RequestBody Search search){
+    public ResponseEntity groupList(HttpServletRequest request, @RequestBody Search search){
 
-        Member member = (Member)principalDetail.getMember();
-        search.setMemberId(member.getId());
+        Long memberId = AuthToken.tokenParse(request);
+        search.setMemberId(memberId);
 
         return groupService.findAll(search);
     }

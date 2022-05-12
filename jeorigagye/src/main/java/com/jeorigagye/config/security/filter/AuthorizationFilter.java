@@ -7,7 +7,9 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.jeorigagye.config.security.auth.PrincipalDetail;
 import com.jeorigagye.domain.Member;
 import com.jeorigagye.repository.MemberRepsitory;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,6 +26,9 @@ import java.io.IOException;
 @Slf4j
 public class AuthorizationFilter extends BasicAuthenticationFilter {
 
+    @Value("${security.jwtKey}")
+    private String jwtKey;
+
     private MemberRepsitory memberRepsitory;
 
     public AuthorizationFilter(AuthenticationManager authenticationManager, MemberRepsitory memberRepsitory) {
@@ -37,15 +42,18 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         log.info("인증이나 권한이 필요한 주소 요청이 됨.");
 
         String jwtHeader = request.getHeader("Authorization");
-        log.info("jwtHeader : {}", jwtHeader);
-        
-        if(jwtHeader == null || jwtHeader.startsWith("Bearer")){
+
+        log.info("jwtHeader = {}", jwtHeader);
+
+        if(jwtHeader == null || !jwtHeader.startsWith("Bearer ")){
             chain.doFilter(request, response);
             return;
         }
 
         String token = jwtHeader.replace("Bearer ", "").trim();
         String membername = null;
+
+        log.info("token = {}", token);
 
         try{
             membername = JWT.require(Algorithm.HMAC512("bbung")).build().verify(token).getClaim("membername").asString();
@@ -54,6 +62,8 @@ public class AuthorizationFilter extends BasicAuthenticationFilter {
         }catch (JWTVerificationException e){
             log.info("유효하지 않은 토큰입니다.");
         }
+
+        log.info("membername = {}", membername);
 
         if(membername != null && !membername.equals("")){
             Member findMember = memberRepsitory.findByMembername(membername)

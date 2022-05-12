@@ -1,8 +1,10 @@
 package com.jeorigagye.controller;
 
 import com.jeorigagye.dto.Search;
+import com.jeorigagye.dto.member.MemberDto;
 import com.jeorigagye.dto.member.MemberForm;
 import com.jeorigagye.service.MemberService;
+import com.jeorigagye.util.AuthToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +24,18 @@ public class MemberController {
         return memberService.memberJoin(memberForm);
     }
 
-    @GetMapping
+    @GetMapping("list")
     public ResponseEntity memberList(@RequestBody Search search){
 
         return  memberService.findAll(search);
+    }
+
+    @GetMapping
+    public ResponseEntity member(HttpServletRequest request){
+
+        Long memberId = AuthToken.tokenParse(request);
+
+        return memberService.findById(memberId);
     }
 
     @GetMapping("{memberId}")
@@ -34,24 +44,20 @@ public class MemberController {
         return memberService.findById(memberId);
     }
 
+    @PutMapping
+    public ResponseEntity memberDetail(HttpServletRequest request, @RequestBody MemberDto memberDto){
+
+        Long memberId = AuthToken.tokenParse(request);
+        memberDto.setId(memberId);
+
+        return memberService.memberUpdate(memberDto);
+    }
+
+    // issue : token null check 수정 필요
     @GetMapping("check")
     public boolean memberLoginCheck(HttpServletRequest request){
 
-        String token = request.getHeader("Authorization");
-
-        System.out.println("token = " + token);
-
-        System.out.println("token.equals(\"null\") = " + token.equals("null"));
-
-
-        if(!token.equals("null")){
-            System.out.println("45Line");
-            return true;
-        }
-
-        System.out.println("52Line token");
-        
-        return false;
+        return AuthToken.tokenCheck(request);
     }
 
 }
