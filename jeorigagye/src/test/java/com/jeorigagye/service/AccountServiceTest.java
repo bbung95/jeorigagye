@@ -3,6 +3,7 @@ package com.jeorigagye.service;
 import com.jeorigagye.domain.Account;
 import com.jeorigagye.domain.Category;
 import com.jeorigagye.domain.Member;
+import com.jeorigagye.dto.account.AccountDto;
 import com.jeorigagye.enums.AccountType;
 import com.jeorigagye.repository.AccountRepository;
 import com.jeorigagye.repository.MemberRepsitory;
@@ -11,9 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -125,6 +130,24 @@ class AccountServiceTest {
 
         //then
         assertThat(sumPrice).isEqualTo(account1.getPrice()+account2.getPrice());
+    }
+    
+    @Test
+    public void accountListTest() throws Exception {
+        //given
+        Category category = em.find(Category.class, 1L);
+
+        Member findMember = memberRepsitory.findById(1L).get();
+        PageRequest pageRequest = PageRequest.of(0 , 10);
+
+        //when
+        Page<Account> accounts = accountRepository.findAccountBySearch(findMember.getId(), AccountType.valueOf("INCOME"), pageRequest);
+
+        //then
+        for (Account account : accounts.getContent()) {
+            System.out.println("account = " + account.getName());
+        }
+    
     }
 
     public Member getMember(String membername){

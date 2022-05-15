@@ -37,7 +37,8 @@ public class Account extends BaseTimeEntity{
         this.name = name;
         this.price = price;
         this.category = category;
-        setMember(member);
+        this.member = member;
+    //    setMember(member);
 
         if(type == 1){
             this.type = AccountType.INCOME;
@@ -46,10 +47,10 @@ public class Account extends BaseTimeEntity{
         }
     }
 
-    public void setMember(Member member){
-        this.member = member;
-        member.getAccounts().add(this);
-    }
+//    private void setMember(Member member){
+//        this.member = member;
+//        member.getAccounts().add(this);
+//    }
 
     public AccountDto toAccountDto(){
 

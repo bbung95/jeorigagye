@@ -32,10 +32,10 @@ public class Expenditure extends BaseTimeEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    public void changeMember(Member member){
-        this.member = member;
-        member.getExpenditures().add(this);
-    }
+//    public void changeMember(Member member){
+//        this.member = member;
+//        member.getExpenditures().add(this);
+//    }
 
     @Builder
     public Expenditure(int price, String name, Member member, Category category){

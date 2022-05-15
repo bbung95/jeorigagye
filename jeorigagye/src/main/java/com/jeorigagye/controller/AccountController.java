@@ -5,11 +5,15 @@ import com.jeorigagye.dto.account.AccountForm;
 import com.jeorigagye.service.AccountService;
 import com.jeorigagye.util.AuthToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static lombok.extern.slf4j.Slf4j.*;
+
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account/")
@@ -27,7 +31,9 @@ public class AccountController {
     }
 
     @GetMapping
-    public ResponseEntity accountList(HttpServletRequest request, @RequestBody Search search){
+    public ResponseEntity accountList(HttpServletRequest request, Search search){
+
+        log.info("search = {}", search);
 
         Long memberId = AuthToken.tokenParse(request);
         search.setMemberId(memberId);

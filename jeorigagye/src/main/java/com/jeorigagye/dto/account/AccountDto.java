@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class AccountDto {
 
     private Long id;
@@ -19,15 +18,19 @@ public class AccountDto {
     private int price;
     private LocalDateTime createDate;
 
-    private Member member;
-    private Category category;
+    private Long memberId;
+    private Long catId;
+    private String catName;
+
+   // private Member member;
+    //private Category category;
 
     @Builder
     public AccountDto (Account account){
         this.id = account.getId();
         this.name = account.getName();
         this.price = account.getPrice();
-        this.member = account.getMember();
-        this.category = account.getCategory();
+        //this.member = account.getMember();
+       // this.category = account.getCategory();
     }
 }

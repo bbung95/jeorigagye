@@ -25,17 +25,17 @@ public class Member extends BaseTimeEntity {
 
     private int salary;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    public List<Account>  accounts = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    public List<Expenditure> expenditures = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    public List<Friend> friends = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    public List<Group> groups = new ArrayList<>();
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+//    public List<Account>  accounts = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+//    public List<Expenditure> expenditures = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+//    public List<Friend> friends = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+//    public List<Group> groups = new ArrayList<>();
 
     @Builder
     public Member(String membername, String password, String name){
@@ -45,9 +45,9 @@ public class Member extends BaseTimeEntity {
        this.name = name;
     }
 
-    public void addFriend(Friend friend){
-        this.getFriends().add(friend);
-    }
+//    public void addFriend(Friend friend){
+//        this.getFriends().add(friend);
+//    }
 
     public MemberDto toMemberDto(){
 

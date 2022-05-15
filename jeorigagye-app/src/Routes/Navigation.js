@@ -7,7 +7,8 @@ import axios from "axios";
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
     headers: {
-        'content-type': 'application/json;charset=utf-8'
+        'content-type': 'application/json;charset=utf-8',
+        'Authorization': localStorage.getItem('login-key')
     },
     withCredentials: true
 });
