@@ -3,6 +3,8 @@ import { Container} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
+import {useObserver} from "mobx-react";
+import indexStore from "../modules/indexStore";
 
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
@@ -12,9 +14,11 @@ let _http = axios.create({
     withCredentials: true
 });
 
-function Login({loginCallback}) {
+const Login = () => {
 
     var navigate = useNavigate();
+
+    const {loginStore} = indexStore();
 
     const [membername, setMembername] = useState("");
     const [password, setPassword] = useState("");
@@ -55,11 +59,12 @@ function Login({loginCallback}) {
 
             // 로그인 완료
             res.then((result) => {
-
                 if(result.status === 200){
 
+                    console.log("true")
+
                     localStorage.setItem("login-key",result.headers.authorization);
-                    loginCallback(true);
+                    loginStore.loginCallback(true);
                 }
             })
 
@@ -70,7 +75,6 @@ function Login({loginCallback}) {
             })
         }
     };
-
 
     return (
         <div>

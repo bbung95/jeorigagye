@@ -19,7 +19,7 @@ const loginStore = observable({
         this.isLogin = isLogin;
     },
 
-    loginCheck(){
+    loginCheck (){
         const res = _http.get("/member/check");
 
         res.then((result) => {

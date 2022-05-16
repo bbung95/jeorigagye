@@ -3,6 +3,8 @@ import { Button, Container, Navbar, Nav } from "react-bootstrap";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
+import {useObserver} from "mobx-react";
+import indexStore from "../modules/indexStore";
 
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
@@ -13,9 +15,11 @@ let _http = axios.create({
     withCredentials: true
 });
 
-function Navigation({ loginCallback }) {
+const Navigation = () => {
 
     var navigate = useNavigate();
+
+    const {loginStore} = indexStore();
 
     const logout = () => {
 
@@ -24,7 +28,7 @@ function Navigation({ loginCallback }) {
         // res.then((result) => {
         //     if(result.status  === 200){
                 localStorage.removeItem("login-key");
-                loginCallback(false);
+                loginStore.loginCallback(false);
                 navigate("/");
         //     }
         // })

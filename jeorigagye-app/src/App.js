@@ -9,6 +9,8 @@ import axios from "axios";
 import LayOut from "./Routes/LayOut";
 import Login from "./Routes/Login";
 import Sign from "./Routes/Sign";
+import {useObserver} from "mobx-react";
+import indexStore from "./modules/indexStore";
 
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
@@ -19,52 +21,24 @@ let _http = axios.create({
     withCredentials: true
 });
 
-function App() {
+const App = () => {
 
+    const {loginStore} = indexStore();
 
-
-    const [isLogin, setIsLogin] = useState(false);
-
-    const loginCallback = (isLogin) => {
-        setIsLogin(isLogin);
-    }
-
-    useEffect(() =>
-    {
-        console.log(isLogin, "islogin")
-        console.log("1.")
-
-        const res = _http.get("/member/check");
-
-        res.then((result) => {
-
-            if(result.status === 200){
-                if(result.data){
-                    console.log("true")
-                    setIsLogin(true);
-                }else{
-                    console.log("false")
-                    setIsLogin(false);
-                }
-            }
-        })
-
-        console.log("2.")
-
-    }, [])
-
+    loginStore.loginCheck();
+    console.log("sds")
     return (
     <div>
         <BrowserRouter>
             <Routes>
-                {isLogin ?
-                    <Route path="/" element={<Navigation loginCallback={loginCallback}/>}>
+                {loginStore.isLogin ?
+                    <Route path="/" element={<Navigation/>}>
                         <Route path="/" element={<Main/>} />
                         <Route path="/mypage" element={<MyPage/>} />
                     </Route>
                     :
                     <Route path="/" element={<LayOut/>}>
-                        <Route path="/" element={<Login loginCallback={loginCallback}/>}/>
+                        <Route path="/" element={<Login/>}/>
                         <Route path="/sign" element={<Sign/>} />
                     </Route>
                 }
