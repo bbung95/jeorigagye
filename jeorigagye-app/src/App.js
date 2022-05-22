@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect, useLayoutEffect} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
@@ -11,6 +11,8 @@ import Login from "./Routes/Login";
 import Sign from "./Routes/Sign";
 import {useObserver} from "mobx-react";
 import indexStore from "./modules/indexStore";
+import LoginCheck from "./Routes/LoginCheck";
+import login from "./Routes/Login";
 
 let _http = axios.create({
     baseURL: 'http://localhost:8080',
@@ -25,8 +27,27 @@ const App = () => {
 
     const {loginStore} = indexStore();
 
-    loginStore.loginCheck();
-    console.log("sds")
+    useLayoutEffect(() => {
+        const test = async () => {
+            // loginStore.loginCheck();
+            let test2 = await loginStore.loginCheck();
+        }
+        test();
+
+        console.log('starbucks is expensive!!!! right?');
+
+    }, [])
+
+    // useLayoutEffect(() => {
+    //     const awaitTest = async () => {console.log("123")};
+    //     awaitTest();
+    //     console.log('sdfg');
+    // }, [])
+
+    // /login
+    //     /main
+    // /user
+
     return (
     <div>
         <BrowserRouter>
@@ -44,6 +65,7 @@ const App = () => {
                 }
             </Routes>
         </BrowserRouter>
+        {/*<LoginCheck/>*/}
     </div>
     );
 }
