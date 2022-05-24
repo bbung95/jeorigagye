@@ -15,7 +15,6 @@ let _http = axios.create({
 function Main (){
 
     const getSearchData = () => {
-
         return {
             "type" : "INCOME",
             "culPage" : "0"
@@ -29,8 +28,12 @@ function Main (){
         const res = _http.get(`/account/?type=${searchData.type}&culPage=${searchData.culPage}`);
 
         res.then((result) => {
-            console.log(result, "result")
+            appendAccountList(result);
         })
+    }
+
+    const appendAccountList = (data) => {
+        console.log(data, "data")
     }
 
     useEffect(() => {
