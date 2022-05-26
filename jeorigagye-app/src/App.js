@@ -25,7 +25,7 @@ const App = () => {
 
         console.log(loginStore.isLogin);
         console.log('app.js login check');
-
+console.log(23)
     }, [])
 
     return (

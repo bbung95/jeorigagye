@@ -1,7 +1,6 @@
 package com.jeorigagye.domain;
 
 import com.jeorigagye.domain.extend.BaseTimeEntity;
-import com.jeorigagye.dto.account.AccountDto;
 import com.jeorigagye.dto.group.GroupDto;
 import lombok.*;
 
